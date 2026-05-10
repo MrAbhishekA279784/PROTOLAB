@@ -142,12 +142,12 @@ const PCBDesigner = () => {
                 <History className="w-3.5 h-3.5" />
                 <span className="text-[10px] font-bold">{activePost.versions.length}</span>
               </button>
-              <div className="absolute top-full right-0 mt-1 w-48 bg-white border border-slate-200 rounded shadow-xl hidden group-hover:block z-50 text-left">
-                <div className="px-3 py-1.5 bg-slate-50 border-b border-slate-100 text-[10px] uppercase font-bold text-slate-400">Version History</div>
+              <div className="absolute top-full right-0 mt-1 w-48 bg-popover border border-border rounded shadow-xl hidden group-hover:block z-50 text-left">
+                <div className="px-3 py-1.5 bg-muted border-b border-border text-[10px] uppercase font-bold text-muted-foreground">Version History</div>
                 {activePost.versions.map(v => (
-                  <button key={v.id} onClick={() => handleLoadVersion(v.data)} className="w-full text-left px-3 py-2 text-xs hover:bg-slate-50 border-b border-slate-100 last:border-0 hover:text-blue-600 transition-colors">
+                  <button key={v.id} onClick={() => handleLoadVersion(v.data)} className="w-full text-left px-3 py-2 text-xs hover:bg-muted border-b border-border last:border-0 hover:text-primary transition-colors text-foreground">
                     <div className="font-semibold">{v.name}</div>
-                    <div className="text-[9px] text-slate-400">{new Date(v.createdAt).toLocaleString()}</div>
+                    <div className="text-[9px] text-muted-foreground">{new Date(v.createdAt).toLocaleString()}</div>
                   </button>
                 ))}
               </div>
@@ -158,7 +158,7 @@ const PCBDesigner = () => {
             <Download className="w-3.5 h-3.5" />
           </button>
           
-          <button onClick={handleShareButton} className="mr-2 px-3 py-1 rounded text-xs font-semibold bg-blue-100 text-blue-700 border border-blue-200 hover:bg-blue-200 transition-colors">
+          <button onClick={handleShareButton} className="mr-2 px-3 py-1 rounded text-xs font-semibold bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20 transition-colors">
             Share to Community
           </button>
           {[ZoomOut, ZoomIn, Move, Crosshair, RotateCw, Grid3X3].map((Icon, i) => (
@@ -352,12 +352,12 @@ const PCBDesigner = () => {
           </div>
 
           {/* Layer Stack Widget */}
-          <div className="absolute bottom-3 left-3 panel-lg p-2 space-y-1 bg-canvas-dark border-slate-700">
-            <span className="text-[9px] font-mono text-slate-400 uppercase tracking-wider">Layer Stack</span>
+          <div className="absolute bottom-3 left-3 panel-lg p-2 space-y-1 bg-card border border-border">
+            <span className="text-[9px] font-mono text-muted-foreground uppercase tracking-wider">Layer Stack</span>
             {layers.filter((l) => layerVisibility[l.name]).map((l) => (
               <div key={l.name} className="flex items-center gap-1.5">
                 <div className="w-16 h-1 rounded-full" style={{ backgroundColor: l.color, opacity: 0.7 }} />
-                <span className="text-[8px] font-mono text-slate-400">{l.name}</span>
+                <span className="text-[8px] font-mono text-muted-foreground">{l.name}</span>
               </div>
             ))}
           </div>

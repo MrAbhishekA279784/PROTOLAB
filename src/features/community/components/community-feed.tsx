@@ -95,7 +95,7 @@ export default function CommunityFeed({ onViewProject }: { onViewProject?: (post
          </h2>
          <div className="space-y-4">
             {trendingPosts.length > 0 ? trendingPosts.map(post => (
-               <div key={post.id} className="p-3 bg-white border border-border rounded-lg shadow-sm cursor-pointer hover:border-primary transition-all" onClick={() => onViewProject && onViewProject(post)}>
+               <div key={post.id} className="p-3 bg-card border border-border rounded-lg shadow-sm cursor-pointer hover:border-primary transition-all" onClick={() => onViewProject && onViewProject(post)}>
                   <h4 className="font-medium text-sm leading-tight mb-1">{post.title}</h4>
                   <div className="flex items-center justify-between text-[11px] text-muted-foreground">
                     <span>{users.find(u => u.id === post.userId)?.username}</span>

@@ -160,12 +160,12 @@ const AIAssistant = ({ isOpen, onClose }: AIAssistantProps) => {
 
       {/* Drawer Panel */}
       <div
-        className={`fixed top-0 right-0 h-full w-[420px] bg-white shadow-2xl z-50 flex flex-col transition-transform duration-300 ease-out border-l border-slate-200 ${
+        className={`fixed top-0 right-0 h-full w-[420px] bg-card shadow-2xl z-50 flex flex-col transition-transform duration-300 ease-out border-l border-border ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
         {/* Header */}
-        <div className="h-16 flex items-center justify-between px-5 border-b border-slate-100 bg-gradient-to-r from-blue-600 to-blue-500 shrink-0">
+        <div className="h-16 flex items-center justify-between px-5 border-b border-border bg-gradient-to-r from-blue-600 to-blue-500 shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center backdrop-blur-sm">
               <Bot className="w-5 h-5 text-white" />
@@ -184,8 +184,8 @@ const AIAssistant = ({ isOpen, onClose }: AIAssistantProps) => {
         </div>
 
         {/* Quick Suggestions */}
-        <div className="px-4 py-3 border-b border-slate-100 bg-slate-50/50 shrink-0">
-          <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1">
+        <div className="px-4 py-3 border-b border-border bg-secondary/30 shrink-0">
+          <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider mb-2 flex items-center gap-1">
             <Lightbulb className="w-3 h-3" /> Quick Questions
           </p>
           <div className="flex flex-wrap gap-1.5">
@@ -194,7 +194,7 @@ const AIAssistant = ({ isOpen, onClose }: AIAssistantProps) => {
                 key={s}
                 onClick={() => sendMessage(s)}
                 disabled={isLoading}
-                className="px-2.5 py-1 rounded-full bg-white border border-slate-200 text-[11px] text-slate-600 hover:border-blue-400 hover:text-blue-600 hover:bg-blue-50 transition-all disabled:opacity-50 shadow-sm"
+                className="px-2.5 py-1 rounded-full bg-background border border-border text-[11px] text-muted-foreground hover:border-primary hover:text-primary hover:bg-primary/10 transition-all disabled:opacity-50 shadow-sm"
               >
                 {s}
               </button>
@@ -218,7 +218,7 @@ const AIAssistant = ({ isOpen, onClose }: AIAssistantProps) => {
                 className={`max-w-[80%] rounded-2xl px-4 py-3 text-[13px] leading-relaxed shadow-sm ${
                   msg.role === "user"
                     ? "bg-gradient-to-br from-blue-600 to-blue-500 text-white rounded-br-md"
-                    : "bg-slate-50 text-slate-800 border border-slate-200 rounded-bl-md"
+                    : "bg-secondary text-foreground border border-border rounded-bl-md"
                 }`}
               >
                 <div className="whitespace-pre-wrap">{msg.text}</div>
@@ -232,9 +232,9 @@ const AIAssistant = ({ isOpen, onClose }: AIAssistantProps) => {
               <div className="w-7 h-7 rounded-full bg-gradient-to-br from-blue-600 to-blue-400 flex items-center justify-center shrink-0 shadow-sm">
                 <Sparkles className="w-3.5 h-3.5 text-white" />
               </div>
-              <div className="bg-slate-50 border border-slate-200 rounded-2xl rounded-bl-md px-4 py-3 flex items-center gap-2 shadow-sm">
-                <Loader2 className="w-3.5 h-3.5 text-blue-500 animate-spin" />
-                <span className="text-[13px] text-slate-400 italic">Thinking...</span>
+              <div className="bg-secondary border border-border rounded-2xl rounded-bl-md px-4 py-3 flex items-center gap-2 shadow-sm">
+                <Loader2 className="w-3.5 h-3.5 text-primary animate-spin" />
+                <span className="text-[13px] text-muted-foreground italic">Thinking...</span>
               </div>
             </div>
           )}
@@ -243,8 +243,8 @@ const AIAssistant = ({ isOpen, onClose }: AIAssistantProps) => {
         </div>
 
         {/* Input Bar */}
-        <div className="p-4 border-t border-slate-100 shrink-0 bg-white">
-          <div className="flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 focus-within:border-blue-400 focus-within:ring-2 focus-within:ring-blue-100 transition-all shadow-sm">
+        <div className="p-4 border-t border-border shrink-0 bg-card">
+          <div className="flex items-center gap-2 bg-background border border-border rounded-xl px-4 py-2.5 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20 transition-all shadow-sm">
             <input
               ref={inputRef}
               value={input}
@@ -252,17 +252,17 @@ const AIAssistant = ({ isOpen, onClose }: AIAssistantProps) => {
               onKeyDown={handleKeyDown}
               placeholder="Ask about circuits, components..."
               disabled={isLoading}
-              className="flex-1 bg-transparent text-sm outline-none text-slate-700 placeholder:text-slate-400 disabled:opacity-50"
+              className="flex-1 bg-transparent text-sm outline-none text-foreground placeholder:text-muted-foreground disabled:opacity-50"
             />
             <button
               onClick={() => sendMessage()}
               disabled={!input.trim() || isLoading}
-              className="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center hover:bg-blue-700 transition-all disabled:opacity-40 disabled:cursor-not-allowed hover:scale-110 active:scale-95 shadow-sm"
+              className="w-8 h-8 rounded-lg bg-primary text-primary-foreground flex items-center justify-center hover:bg-primary/90 transition-all disabled:opacity-40 disabled:cursor-not-allowed hover:scale-110 active:scale-95 shadow-sm"
             >
               <Send className="w-3.5 h-3.5" />
             </button>
           </div>
-          <p className="text-center text-[10px] text-slate-400 mt-2">Press Enter to send · Shift+Enter for newline</p>
+          <p className="text-center text-[10px] text-muted-foreground mt-2">Press Enter to send · Shift+Enter for newline</p>
         </div>
       </div>
     </>

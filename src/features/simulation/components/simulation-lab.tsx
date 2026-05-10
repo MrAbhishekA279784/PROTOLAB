@@ -316,28 +316,28 @@ export default function SimulationLab() {
   const selectedComp = components.find((c) => selectedIds.includes(c.id));
 
   return (
-    <div className="flex h-full bg-[#f8fafc]" id="sim-container">
+    <div className="flex h-full bg-background" id="sim-container">
       {/* 1. Left Panel (Tutorial Guide) */}
-      <div className="w-72 bg-white/95 backdrop-blur-sm border-r border-slate-200 flex flex-col shrink-0 z-30 shadow-[4px_0_20px_-5px_rgba(0,0,0,0.05)] animate-in slide-in-from-left-8 fade-in duration-500">
-        <div className="p-4 border-b border-slate-200 flex items-center gap-2">
-          <div className="w-8 h-8 rounded bg-blue-600 flex items-center justify-center text-white">
+      <div className="w-72 bg-card/95 backdrop-blur-sm border-r border-border flex flex-col shrink-0 z-30 shadow-[4px_0_20px_-5px_rgba(0,0,0,0.05)] animate-in slide-in-from-left-8 fade-in duration-500">
+        <div className="p-4 border-b border-border flex items-center gap-2">
+          <div className="w-8 h-8 rounded bg-primary flex items-center justify-center text-primary-foreground">
             <Grid3X3 className="w-5 h-5" />
           </div>
-          <h2 className="font-bold text-slate-800 text-lg">Start Simulating</h2>
+          <h2 className="font-bold text-foreground text-lg">Start Simulating</h2>
         </div>
         <div className="p-6">
-          <p className="text-sm text-slate-600 mb-6 font-medium leading-relaxed">
+          <p className="text-sm text-muted-foreground mb-6 font-medium leading-relaxed">
             Let's learn how to test a circuit design with the simulator. Follow the steps below!
           </p>
-          <div className="w-full aspect-[4/3] bg-slate-50/50 rounded-lg border border-slate-200 shadow-inner flex items-center justify-center mb-6 overflow-hidden transition-transform duration-300 hover:scale-[1.02]">
-            <div className="text-slate-400 font-semibold text-sm">Preview Img</div>
+          <div className="w-full aspect-[4/3] bg-muted/50 rounded-lg border border-border shadow-inner flex items-center justify-center mb-6 overflow-hidden transition-transform duration-300 hover:scale-[1.02]">
+            <div className="text-muted-foreground font-semibold text-sm">Preview Img</div>
           </div>
-          <div className="flex justify-between items-center bg-slate-50 border border-slate-200 rounded p-1 shadow-sm">
-            <button className="px-3 py-1.5 text-xs font-semibold text-slate-500 hover:text-slate-800 hover:scale-105 active:scale-95 transition-all">
+          <div className="flex justify-between items-center bg-muted border border-border rounded p-1 shadow-sm">
+            <button className="px-3 py-1.5 text-xs font-semibold text-muted-foreground hover:text-foreground hover:scale-105 active:scale-95 transition-all">
               Prev
             </button>
-            <span className="text-xs font-bold text-slate-400">1 / 3</span>
-            <button className="px-3 py-1.5 text-xs font-semibold text-blue-600 hover:bg-blue-50 rounded flex items-center gap-1 hover:scale-105 active:scale-95 transition-all">
+            <span className="text-xs font-bold text-muted-foreground">1 / 3</span>
+            <button className="px-3 py-1.5 text-xs font-semibold text-primary hover:bg-primary/10 rounded flex items-center gap-1 hover:scale-105 active:scale-95 transition-all">
               Next <ArrowRight className="w-3 h-3" />
             </button>
           </div>

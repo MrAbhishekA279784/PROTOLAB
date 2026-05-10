@@ -1,17 +1,19 @@
 import { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
-import { Cpu, CircuitBoard, Code2, Bot, ShoppingBag, Users, Sun, Moon } from "lucide-react";
+import { Cpu, CircuitBoard, Code2, Bot, ShoppingBag, Users, Sun, Moon, Home } from "lucide-react";
 import SimulationLab from "@/features/simulation/components/simulation-lab";
 import PCBDesigner from "@/features/pcb/components/pcb-designer";
-import CodingLab from "@/features/code/components/coding-lab";
+import ProtoCodeStudio from "@/features/protocode-studio/ProtoCodeStudio";
 import AIAssistant from "@/features/ai/components/ai-assistant";
 import StorePage from "@/features/store/components/store-page";
 import CommunityFeed from "@/features/community/components/community-feed";
+import HomePage from "@/features/homepage/HomePage";
 import { AuthButtons } from "@/components/auth/auth-modals";
 import { OnboardingTour } from "@/components/layout/onboarding-tour";
 import { useStore, Post } from "@/store/useStore";
 
 const modes = [
+  { id: "home", label: "Home", icon: Home },
   { id: "store", label: "Store", icon: ShoppingBag },
   { id: "sim", label: "Simulation", icon: Cpu },
   { id: "pcb", label: "PCB LAB", icon: CircuitBoard },
@@ -23,7 +25,7 @@ type Mode = (typeof modes)[number]["id"] | "ai";
 
 const Index = () => {
   const location = useLocation();
-  const [activeMode, setActiveMode] = useState<Mode>(location.state?.targetMode || "store");
+  const [activeMode, setActiveMode] = useState<Mode>(location.state?.targetMode || "home");
   const { loadProject, theme, setTheme } = useStore();
   
   useEffect(() => {
@@ -94,8 +96,8 @@ const Index = () => {
                 onClick={() => setActiveMode(mode.id)}
                 className={`shrink-0 snap-center flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs transition-all duration-300 transform active:scale-95 ${
                   isActive
-                    ? (isStore ? "bg-blue-600 text-white font-bold shadow-[0_4px_10px_rgba(37,99,235,0.3)] shadow-blue-500/30 scale-105" : "bg-primary text-primary-foreground font-semibold shadow-md scale-105")
-                    : (isStore ? "text-blue-600 hover:bg-blue-50 font-semibold hover:scale-105 hover:shadow-sm" : "text-muted-foreground hover:text-foreground hover:bg-secondary font-medium hover:scale-105")
+                    ? (isStore ? "bg-primary text-primary-foreground font-bold shadow-[0_4px_10px_rgba(79,107,255,0.3)] shadow-primary/30 scale-105" : "bg-primary text-primary-foreground font-semibold shadow-md scale-105")
+                    : (isStore ? "text-primary hover:bg-primary/10 font-semibold hover:scale-105 hover:shadow-sm" : "text-muted-foreground hover:text-foreground hover:bg-secondary font-medium hover:scale-105")
                 }`}
               >
                 <Icon className="w-4 h-4" />
@@ -122,9 +124,10 @@ const Index = () => {
       {/* Content */}
       <div className="flex-1 overflow-hidden relative">
         <div key={activeMode} className="w-full h-full animate-in fade-in slide-in-from-bottom-4 duration-500 ease-out fill-mode-forwards relative z-10">
+          {activeMode === "home" && <HomePage onNavigate={(mode) => setActiveMode(mode as Mode)} />}
           {activeMode === "sim" && <SimulationLab />}
           {activeMode === "pcb" && <PCBDesigner />}
-          {activeMode === "code" && <CodingLab />}
+          {activeMode === "code" && <ProtoCodeStudio />}
           {activeMode === "store" && <StorePage />}
           {activeMode === "community" && <CommunityFeed onViewProject={handleViewProject} />}
         </div>
@@ -154,7 +157,7 @@ const Index = () => {
             }
           }}
           style={aiPos ? { left: aiPos.x, top: aiPos.y } : { right: 24, bottom: 24 }}
-          className={`fixed w-16 h-16 rounded-full bg-gradient-to-tr from-blue-600 to-blue-400 text-white flex items-center justify-center z-50 transition-transform duration-200 ease-out border border-blue-400/30 ${
+          className={`fixed w-16 h-16 rounded-full bg-gradient-to-tr from-primary to-primary/80 text-primary-foreground flex items-center justify-center z-50 transition-transform duration-200 ease-out border border-primary/30 ${
             isDragging 
               ? "cursor-grabbing scale-[1.05] shadow-[0_10px_25px_rgba(37,99,235,0.6)]" 
               : "cursor-grab hover:scale-[1.05] hover:shadow-[0_8px_20px_rgba(37,99,235,0.5)] shadow-[0_4px_12px_rgba(37,99,235,0.3)]"

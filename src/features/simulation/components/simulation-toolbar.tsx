@@ -77,13 +77,13 @@ export const SimulationToolbar: React.FC<SimulationToolbarProps> = ({
   handleExport,
 }) => {
   return (
-    <div className="h-14 border-b border-slate-200 bg-white/95 backdrop-blur-sm flex items-center px-3 gap-1 z-20 shrink-0 shadow-[0_4px_20px_-5px_rgba(0,0,0,0.05)] animate-in slide-in-from-top-4 fade-in duration-500">
+    <div className="h-14 border-b border-border bg-card/95 backdrop-blur-sm flex items-center px-3 gap-1 z-20 shrink-0 shadow-[0_4px_20px_-5px_rgba(0,0,0,0.05)] animate-in slide-in-from-top-4 fade-in duration-500">
       {/* LEFT: Undo / Redo / Delete / Duplicate / Rotate / Reset */}
       <div className="flex items-center gap-0.5">
         <button
           onClick={undo}
           disabled={!canUndo}
-          className="p-2 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded hover:scale-110 active:scale-95 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+          className="p-2 text-muted-foreground hover:text-foreground hover:bg-secondary rounded hover:scale-110 active:scale-95 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
           title="Undo (Ctrl+Z)"
         >
           <Undo className="w-4 h-4" />
@@ -91,32 +91,32 @@ export const SimulationToolbar: React.FC<SimulationToolbarProps> = ({
         <button
           onClick={redo}
           disabled={!canRedo}
-          className="p-2 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded hover:scale-110 active:scale-95 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+          className="p-2 text-muted-foreground hover:text-foreground hover:bg-secondary rounded hover:scale-110 active:scale-95 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
           title="Redo (Ctrl+Y)"
         >
           <Redo className="w-4 h-4" />
         </button>
       </div>
 
-      <div className="w-px h-6 bg-slate-200 mx-1" />
+      <div className="w-px h-6 bg-border mx-1" />
       <button
         onClick={() => setIsDebugMode(!isDebugMode)}
         className={`p-2 rounded hover:scale-110 active:scale-95 transition-all ${
           isDebugMode
-            ? "bg-orange-100 text-orange-600 border border-orange-200 shadow-inner"
-            : "text-slate-400 hover:text-orange-600 hover:bg-orange-50"
+            ? "bg-warning/20 text-warning border border-warning/30 shadow-inner"
+            : "text-muted-foreground hover:text-warning hover:bg-warning/10"
         }`}
         title="Debug Circuit"
       >
         <Activity className="w-4 h-4" />
       </button>
-      <div className="w-px h-6 bg-slate-200 mx-1" />
+      <div className="w-px h-6 bg-border mx-1" />
 
       <div className="flex items-center gap-0.5">
         <button
           onClick={deleteSelected}
           disabled={selectedIds.length === 0}
-          className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded hover:scale-110 active:scale-95 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+          className="p-2 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded hover:scale-110 active:scale-95 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
           title="Delete selected (Del)"
         >
           <Trash2 className="w-4 h-4" />
@@ -124,7 +124,7 @@ export const SimulationToolbar: React.FC<SimulationToolbarProps> = ({
         <button
           onClick={duplicateSelected}
           disabled={selectedIds.length === 0}
-          className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded hover:scale-110 active:scale-95 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+          className="p-2 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded hover:scale-110 active:scale-95 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
           title="Duplicate"
         >
           <Copy className="w-4 h-4" />
@@ -132,21 +132,21 @@ export const SimulationToolbar: React.FC<SimulationToolbarProps> = ({
         <button
           onClick={rotateSelected}
           disabled={selectedIds.length === 0}
-          className="p-2 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded hover:scale-110 active:scale-95 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+          className="p-2 text-muted-foreground hover:text-success hover:bg-success/10 rounded hover:scale-110 active:scale-95 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
           title="Rotate 90°"
         >
           <RotateCw className="w-4 h-4" />
         </button>
         <button
           onClick={resetCanvas}
-          className="p-2 text-slate-400 hover:text-orange-500 hover:bg-orange-50 rounded hover:scale-110 active:scale-95 transition-all"
+          className="p-2 text-muted-foreground hover:text-warning hover:bg-warning/10 rounded hover:scale-110 active:scale-95 transition-all"
           title="Reset canvas"
         >
           <RefreshCw className="w-4 h-4" />
         </button>
       </div>
 
-      <div className="w-px h-6 bg-slate-200 mx-1" />
+      <div className="w-px h-6 bg-border mx-1" />
 
       {/* MIDDLE: Comment + Inspect tools */}
       <div className="flex items-center gap-0.5">
@@ -154,8 +154,8 @@ export const SimulationToolbar: React.FC<SimulationToolbarProps> = ({
           onClick={() => setActiveTool(activeTool === "comment" ? "select" : "comment")}
           className={`p-2 rounded hover:scale-110 active:scale-95 transition-all ${
             activeTool === "comment"
-              ? "bg-yellow-100 text-yellow-700 shadow-inner"
-              : "text-slate-400 hover:text-yellow-600 hover:bg-yellow-50"
+              ? "bg-warning/20 text-warning shadow-inner"
+              : "text-muted-foreground hover:text-warning hover:bg-warning/10"
           }`}
           title="Comment tool – click on canvas to add note"
         >
@@ -171,8 +171,8 @@ export const SimulationToolbar: React.FC<SimulationToolbarProps> = ({
           disabled={!selectedComp}
           className={`p-2 rounded hover:scale-110 active:scale-95 transition-all ${
             showInspect
-              ? "bg-blue-100 text-blue-700 shadow-inner"
-              : "text-slate-400 hover:text-blue-600 hover:bg-blue-50 disabled:opacity-30 disabled:cursor-not-allowed"
+              ? "bg-primary/20 text-primary shadow-inner"
+              : "text-muted-foreground hover:text-primary hover:bg-primary/10 disabled:opacity-30 disabled:cursor-not-allowed"
           }`}
           title="Inspect selected component"
         >
@@ -188,15 +188,15 @@ export const SimulationToolbar: React.FC<SimulationToolbarProps> = ({
         <div className="relative">
           <button
             onClick={() => setShowWireDropdown(!showWireDropdown)}
-            className="flex items-center gap-1.5 px-3 py-1.5 border border-slate-200 rounded-md text-xs font-semibold text-slate-600 hover:bg-slate-50 hover:scale-105 active:scale-95 transition-all shadow-sm"
+            className="flex items-center gap-1.5 px-3 py-1.5 border border-border rounded-md text-xs font-semibold text-foreground hover:bg-secondary hover:scale-105 active:scale-95 transition-all shadow-sm"
           >
             <span className="w-2 h-2 rounded-full" style={{ background: currentWireType.color }} />
             {currentWireType.label}
-            <ChevronDown className="w-3 h-3 text-slate-400" />
+            <ChevronDown className="w-3 h-3 text-muted-foreground" />
           </button>
           {showWireDropdown && (
-            <div className="absolute top-full mt-1 right-0 w-44 bg-white border border-slate-200 rounded-xl shadow-xl z-50 py-1 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-150">
-              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-3 pt-1 pb-1">
+            <div className="absolute top-full mt-1 right-0 w-44 bg-popover border border-border rounded-xl shadow-xl z-50 py-1 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-150">
+              <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider px-3 pt-1 pb-1">
                 Wire Type
               </p>
               {WIRE_TYPES.map((wt) => (
@@ -206,8 +206,8 @@ export const SimulationToolbar: React.FC<SimulationToolbarProps> = ({
                     setWireType(wt.id);
                     setShowWireDropdown(false);
                   }}
-                  className={`flex items-center gap-2 w-full px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 transition-colors ${
-                    wireType === wt.id ? "font-bold text-blue-600 bg-blue-50/50" : ""
+                  className={`flex items-center gap-2 w-full px-3 py-2 text-sm text-foreground hover:bg-muted transition-colors ${
+                    wireType === wt.id ? "font-bold text-primary bg-primary/10" : ""
                   }`}
                 >
                   <span
@@ -218,14 +218,14 @@ export const SimulationToolbar: React.FC<SimulationToolbarProps> = ({
                     }}
                   />
                   {wt.label}
-                  {wireType === wt.id && <ChevronRight className="w-3 h-3 ml-auto text-blue-500" />}
+                  {wireType === wt.id && <ChevronRight className="w-3 h-3 ml-auto text-primary" />}
                 </button>
               ))}
             </div>
           )}
         </div>
 
-        <button className="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-semibold text-slate-600 hover:bg-slate-100 transition-all border border-transparent hover:border-slate-200 hover:scale-105 active:scale-95">
+        <button className="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-semibold text-foreground hover:bg-secondary transition-all border border-transparent hover:border-border hover:scale-105 active:scale-95">
           <Code2 className="w-4 h-4" /> Code
         </button>
         <button
@@ -245,47 +245,47 @@ export const SimulationToolbar: React.FC<SimulationToolbarProps> = ({
         </button>
         <button
           onClick={handleShareButton}
-          className="ml-2 px-3 py-1.5 rounded-md text-xs font-semibold bg-blue-100 text-blue-700 hover:bg-blue-200 transition-colors flex items-center gap-1.5"
+          className="ml-2 px-3 py-1.5 rounded-md text-xs font-semibold bg-primary/10 text-primary hover:bg-primary/20 transition-colors flex items-center gap-1.5"
         >
           <Share2 className="w-3.5 h-3.5" />
           Share
         </button>
 
-        <div className="w-px h-6 bg-slate-200 mx-1" />
+        <div className="w-px h-6 bg-border mx-1" />
 
         {/* Templates Dropdown */}
         <div className="relative group z-50">
-          <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors">
+          <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold bg-secondary text-foreground hover:bg-muted transition-colors">
             <FolderOpen className="w-3.5 h-3.5" /> Templates
           </button>
-          <div className="absolute top-full right-0 mt-1 w-40 bg-white border border-slate-200 rounded shadow-xl hidden group-hover:block">
+          <div className="absolute top-full right-0 mt-1 w-40 bg-popover border border-border rounded shadow-xl hidden group-hover:block">
             <button
               onClick={() => loadTemplate("LED Blinker")}
-              className="w-full text-left px-3 py-2 text-xs hover:bg-slate-50 border-b border-slate-100"
+              className="w-full text-left px-3 py-2 text-xs hover:bg-muted border-b border-border text-foreground"
             >
               LED Blinker
             </button>
             <button
               onClick={() => loadTemplate("DHT22 Sensor")}
-              className="w-full text-left px-3 py-2 text-xs hover:bg-slate-50 border-b border-slate-100"
+              className="w-full text-left px-3 py-2 text-xs hover:bg-muted border-b border-border text-foreground"
             >
               Temp Monitor
             </button>
             <button
               onClick={() => setComponents([])}
-              className="w-full text-left px-3 py-2 text-xs text-red-600 hover:bg-red-50"
+              className="w-full text-left px-3 py-2 text-xs text-destructive hover:bg-destructive/10"
             >
               Clear Board
             </button>
           </div>
         </div>
 
-        <div className="w-px h-6 bg-slate-200 mx-1" />
+        <div className="w-px h-6 bg-border mx-1" />
         {isOwner && (
           <button
             onClick={handleSaveVersion}
             title="Commit Version"
-            className="p-2 text-blue-600 hover:bg-blue-50 rounded transition-colors"
+            className="p-2 text-primary hover:bg-primary/10 rounded transition-colors"
           >
             <Save className="w-4 h-4" />
           </button>
@@ -293,14 +293,14 @@ export const SimulationToolbar: React.FC<SimulationToolbarProps> = ({
 
         {activePost && activePost.versions && activePost.versions.length > 0 && (
           <div className="relative group">
-            <button className="p-2 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded transition-colors flex items-center gap-1" title="Version History">
+            <button className="p-2 text-muted-foreground hover:text-foreground hover:bg-secondary rounded transition-colors flex items-center gap-1" title="Version History">
               <History className="w-4 h-4" />
-              <div className="absolute top-full right-0 mt-1 w-48 bg-white border border-slate-200 rounded shadow-xl hidden group-hover:block z-50">
-                <p className="px-3 py-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-wider border-b">Versions</p>
+              <div className="absolute top-full right-0 mt-1 w-48 bg-popover border border-border rounded shadow-xl hidden group-hover:block z-50">
+                <p className="px-3 py-1.5 text-[10px] font-bold text-muted-foreground uppercase tracking-wider border-b border-border">Versions</p>
                 {activePost.versions.map((v: any, idx: number) => (
-                  <button key={idx} onClick={() => handleLoadVersion(v.data)} className="w-full text-left px-3 py-2 text-xs hover:bg-slate-50 border-b last:border-0 truncate flex items-center justify-between">
+                  <button key={idx} onClick={() => handleLoadVersion(v.data)} className="w-full text-left px-3 py-2 text-xs hover:bg-muted border-b border-border last:border-0 truncate flex items-center justify-between text-foreground">
                     <span>{v.name}</span>
-                    <span className="text-[9px] text-slate-400">{new Date(v.timestamp).toLocaleDateString()}</span>
+                    <span className="text-[9px] text-muted-foreground">{new Date(v.timestamp).toLocaleDateString()}</span>
                   </button>
                 ))}
               </div>
@@ -308,7 +308,7 @@ export const SimulationToolbar: React.FC<SimulationToolbarProps> = ({
           </div>
         )}
 
-        <button onClick={handleExport} title="Export as JSON" className="p-2 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded transition-colors">
+        <button onClick={handleExport} title="Export as JSON" className="p-2 text-muted-foreground hover:text-foreground hover:bg-secondary rounded transition-colors">
           <Download className="w-4 h-4" />
         </button>
       </div>

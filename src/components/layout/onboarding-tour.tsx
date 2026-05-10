@@ -31,7 +31,7 @@ export function OnboardingTour() {
            
            <div className="mb-6 mt-2">
               <div className="flex items-center gap-2 mb-3">
-                 <span className="flex items-center justify-center w-7 h-7 rounded-full bg-blue-100 text-blue-600 text-sm font-bold shrink-0">{currentStep + 1}</span>
+                 <span className="flex items-center justify-center w-7 h-7 rounded-full bg-primary/10 text-primary text-sm font-bold shrink-0">{currentStep + 1}</span>
                  <h3 className="text-xl font-bold">{steps[currentStep].title}</h3>
               </div>
               <p className="text-muted-foreground text-sm leading-relaxed">{steps[currentStep].desc}</p>
@@ -41,12 +41,12 @@ export function OnboardingTour() {
            <div className="flex justify-between items-center mt-8">
               <div className="flex gap-1.5">
                  {steps.map((_, i) => (
-                    <div key={i} className={`h-1.5 rounded-full transition-all duration-300 ${i === currentStep ? 'w-6 bg-blue-600' : 'w-1.5 bg-slate-200 dark:bg-slate-700'}`} />
+                    <div key={i} className={`h-1.5 rounded-full transition-all duration-300 ${i === currentStep ? 'w-6 bg-primary' : 'w-1.5 bg-secondary'}`} />
                  ))}
               </div>
               <button 
                 onClick={handleNext} 
-                className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md transition-all hover:-translate-y-0.5 active:scale-95"
+                className="flex items-center gap-2 px-6 py-2.5 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-lg shadow-md transition-all hover:-translate-y-0.5 active:scale-95"
               >
                  {currentStep === steps.length - 1 ? (
                     <>Get Started <Check className="w-4 h-4" /></>

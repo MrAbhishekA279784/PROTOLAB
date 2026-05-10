@@ -84,7 +84,7 @@ export const SimulationCanvas: React.FC<SimulationCanvasProps> = ({
   return (
     <div
       ref={containerRef}
-      className="flex-1 relative overflow-hidden bg-[#fafafa]"
+      className="flex-1 relative overflow-hidden bg-[#fafafa] dark:bg-[#0b1221]"
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
       onMouseDown={handleMouseDown}
@@ -108,32 +108,32 @@ export const SimulationCanvas: React.FC<SimulationCanvasProps> = ({
 
       {/* Bottom-left: Zoom / Snap / Tool indicators */}
       <div className="absolute bottom-4 left-4 z-30 flex items-center gap-2">
-        <span className="text-[11px] font-mono text-slate-400 bg-white/80 px-2 py-1 rounded-md border border-slate-200 shadow-sm">
+        <span className="text-[11px] font-mono text-muted-foreground bg-card/80 px-2 py-1 rounded-md border border-border shadow-sm">
           {Math.round(zoom * 100)}%
         </span>
         <button
           onClick={() => setSnapEnabled((v: boolean) => !v)}
           className={`text-[11px] font-bold px-2 py-1 rounded-md border shadow-sm transition-all ${
             snapEnabled
-              ? "bg-blue-50 border-blue-300 text-blue-700"
-              : "bg-white border-slate-200 text-slate-400"
+              ? "bg-primary/10 border-primary/30 text-primary"
+              : "bg-card border-border text-muted-foreground"
           }`}
           title="Toggle grid snap (20px)"
         >
           ⊞ Snap {snapEnabled ? "ON" : "OFF"}
         </button>
         {isSpacePanning && (
-          <span className="text-[11px] font-bold text-slate-500 bg-white border border-slate-200 px-2 py-1 rounded-md shadow-sm">
+          <span className="text-[11px] font-bold text-muted-foreground bg-card border border-border px-2 py-1 rounded-md shadow-sm">
             Hold Space + Drag to Pan
           </span>
         )}
         {selectedIds.length > 1 && (
-          <span className="text-[11px] font-bold text-blue-700 bg-blue-50 border border-blue-200 px-2 py-1 rounded-md shadow-sm">
+          <span className="text-[11px] font-bold text-primary bg-primary/10 border border-primary/20 px-2 py-1 rounded-md shadow-sm">
             {selectedIds.length} selected
           </span>
         )}
         {activeTool !== "select" && (
-          <span className="text-[11px] font-bold text-yellow-700 bg-yellow-50 border border-yellow-200 px-2 py-1 rounded-md shadow-sm capitalize">
+          <span className="text-[11px] font-bold text-warning bg-warning/10 border border-warning/20 px-2 py-1 rounded-md shadow-sm capitalize">
             {activeTool} mode
           </span>
         )}
@@ -257,8 +257,8 @@ export const SimulationCanvas: React.FC<SimulationCanvasProps> = ({
                 className={`absolute inset-0 cursor-grab active:cursor-grabbing origin-center transition-transform hover:-translate-y-[1px] duration-300 ${
                   isSelected
                     ? selectedIds.length > 1
-                      ? "ring-2 ring-violet-500 ring-offset-4 ring-offset-[#fafafa] rounded-sm shadow-[0_0_0_4px_rgba(139,92,246,0.15)]"
-                      : "ring-2 ring-blue-500 ring-offset-4 ring-offset-[#fafafa] rounded-sm shadow-[0_0_0_4px_rgba(59,130,246,0.15)]"
+                      ? "ring-2 ring-violet-500 ring-offset-4 ring-offset-background rounded-sm shadow-[0_0_0_4px_rgba(139,92,246,0.15)]"
+                      : "ring-2 ring-primary ring-offset-4 ring-offset-background rounded-sm shadow-[0_0_0_4px_rgba(59,130,246,0.15)]"
                     : ""
                 }`}
                 style={{

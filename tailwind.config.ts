@@ -61,7 +61,8 @@ export default {
         },
         canvas: { dark: "hsl(var(--canvas-dark))" },
         copper: "hsl(var(--copper))",
-        success: "hsl(var(--accent))",
+        success: "hsl(var(--success))",
+        warning: "hsl(var(--warning))",
       },
       borderRadius: {
         lg: "var(--radius)",

@@ -16,11 +16,11 @@ export const ComponentLibrary: React.FC<ComponentLibraryProps> = ({
   setSearchTerm,
 }) => {
   return (
-    <div className="w-[300px] bg-white/95 backdrop-blur-sm border-l border-slate-200 flex flex-col shrink-0 z-20 shadow-[-4px_0_20px_-5px_rgba(0,0,0,0.05)] animate-in slide-in-from-right-8 fade-in duration-500">
-      <div className="p-4 border-b border-slate-100 bg-[#f8fafc]/50">
+    <div className="w-[300px] bg-card/95 backdrop-blur-sm border-l border-border flex flex-col shrink-0 z-20 shadow-[-4px_0_20px_-5px_rgba(0,0,0,0.05)] animate-in slide-in-from-right-8 fade-in duration-500">
+      <div className="p-4 border-b border-border bg-background/50">
         <div className="flex items-center justify-between mb-4">
-          <span className="font-bold text-slate-700">Components</span>
-          <button className="p-1.5 hover:bg-slate-200 rounded text-slate-500 hover:scale-110 active:scale-95 transition-all">
+          <span className="font-bold text-foreground">Components</span>
+          <button className="p-1.5 hover:bg-secondary rounded text-muted-foreground hover:scale-110 active:scale-95 transition-all">
             <List className="w-4 h-4" />
           </button>
         </div>
@@ -28,7 +28,7 @@ export const ComponentLibrary: React.FC<ComponentLibraryProps> = ({
           <select
             value={activeCategory}
             onChange={(e) => setActiveCategory(e.target.value)}
-            className="w-full appearance-none bg-white border border-slate-300 text-slate-700 py-2 pl-3 pr-8 rounded font-semibold text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 shadow-sm transition-all duration-300 group-hover:border-blue-400"
+            className="w-full appearance-none bg-card border border-border text-foreground py-2 pl-3 pr-8 rounded font-semibold text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 shadow-sm transition-all duration-300 group-hover:border-primary"
           >
             {["Basic", "Sensors", "Power", "Output", "Microcontrollers", "All"].map((c) => (
               <option key={c} value={c}>
@@ -36,7 +36,7 @@ export const ComponentLibrary: React.FC<ComponentLibraryProps> = ({
               </option>
             ))}
           </select>
-          <ChevronDown className="w-4 h-4 absolute right-3 top-2.5 text-slate-400 pointer-events-none group-hover:text-blue-500 transition-colors" />
+          <ChevronDown className="w-4 h-4 absolute right-3 top-2.5 text-muted-foreground pointer-events-none group-hover:text-primary transition-colors" />
         </div>
         <div className="relative group">
           <input
@@ -44,9 +44,9 @@ export const ComponentLibrary: React.FC<ComponentLibraryProps> = ({
             placeholder="Search"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full border border-slate-300 pl-9 pr-3 py-2 rounded text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-100 shadow-sm transition-all duration-300 group-hover:border-blue-400"
+            className="w-full border border-border pl-9 pr-3 py-2 rounded text-sm bg-card focus:outline-none focus:ring-2 focus:ring-primary/20 shadow-sm transition-all duration-300 group-hover:border-primary"
           />
-          <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5 group-focus-within:text-blue-500 transition-colors" />
+          <Search className="w-4 h-4 text-muted-foreground absolute left-3 top-2.5 group-focus-within:text-primary transition-colors" />
         </div>
       </div>
 
@@ -65,12 +65,12 @@ export const ComponentLibrary: React.FC<ComponentLibraryProps> = ({
                 key={key}
                 draggable
                 onDragStart={(e) => e.dataTransfer.setData("new_component", key)}
-                className="flex flex-col items-center bg-white p-3 border border-slate-200 rounded-lg cursor-grab active:cursor-grabbing hover:border-blue-400 shadow-sm hover:shadow-[0_8px_16px_rgba(37,99,235,0.15)] hover:-translate-y-1 transition-all duration-300 h-[110px] group transform z-10 hover:z-20"
+                className="flex flex-col items-center bg-card p-3 border border-border rounded-lg cursor-grab active:cursor-grabbing hover:border-primary shadow-sm hover:shadow-[0_8px_16px_rgba(0,0,0,0.1)] hover:-translate-y-1 transition-all duration-300 h-[110px] group transform z-10 hover:z-20"
               >
                 <div className="flex-1 w-full flex items-center justify-center transform scale-[0.5] group-hover:scale-[0.55] group-hover:-translate-y-1 transition-transform duration-300 origin-center pointer-events-none">
                   {def.render({ isRunning: false })}
                 </div>
-                <span className="text-[11px] font-bold text-slate-600 mt-auto text-center leading-tight group-hover:text-blue-600 transition-colors">
+                <span className="text-[11px] font-bold text-muted-foreground mt-auto text-center leading-tight group-hover:text-primary transition-colors">
                   {def.name}
                 </span>
               </div>
