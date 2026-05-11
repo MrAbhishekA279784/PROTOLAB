@@ -1,12 +1,18 @@
-# Graph Report - .  (2026-05-11)
+# Graph Report - proto-circuit-studio-main  (2026-05-11)
 
 ## Corpus Check
-- Corpus is ~41,915 words - fits in a single context window. You may not need a graph.
+- 99 files · ~41,915 words
+- Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
 - 167 nodes · 147 edges · 46 communities (42 shown, 4 thin omitted)
 - Extraction: 97% EXTRACTED · 3% INFERRED · 0% AMBIGUOUS · INFERRED: 5 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
+
+## Graph Freshness
+- Built from commit: `433ba7e4`
+- Run `git rev-parse HEAD` and compare to check if the graph is stale.
+- Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
 - [[_COMMUNITY_Core Utilities|Core Utilities]]
