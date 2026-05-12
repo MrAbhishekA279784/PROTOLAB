@@ -28,8 +28,8 @@ interface SimulationToolbarProps {
   setWireType: (type: string) => void;
   showWireDropdown: boolean;
   setShowWireDropdown: (val: boolean) => void;
-  WIRE_TYPES: string[];
-  currentWireType: string;
+  WIRE_TYPES: any[];
+  currentWireType: any;
   isRunning: boolean;
   setIsRunning: (val: boolean) => void;
   handleShareButton: () => void;

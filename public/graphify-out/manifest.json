@@ -1,0 +1,486 @@
+{
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\eslint.config.js": {
+    "mtime": 1774896992.064062,
+    "hash": "31c0881fdd8500aa4d0aa963079713ae"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\playwright-fixture.ts": {
+    "mtime": 1774896992.0901427,
+    "hash": "c6b1bf0400f214c8a880d32f4c2a31f8"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\playwright.config.ts": {
+    "mtime": 1774896992.0971584,
+    "hash": "98660afe9a3781e2b1e7a0d576915935"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\postcss.config.js": {
+    "mtime": 1774896992.1031852,
+    "hash": "c735540bb63936a123bc867d950c9f69"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\tailwind.config.ts": {
+    "mtime": 1778402263.1599598,
+    "hash": "f0e11fa2084a056ba07006394e57a893"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\vite.config.ts": {
+    "mtime": 1774896992.136793,
+    "hash": "978c0733ad7195aa171e5d7f71b2dccf"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\vitest.config.ts": {
+    "mtime": 1774896992.1463072,
+    "hash": "9285ab80c07d5cd1a71aa20c1687352a"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\App.tsx": {
+    "mtime": 1778347686.3656921,
+    "hash": "0481a7c47cf597ac7b96d9744f855342"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\main.tsx": {
+    "mtime": 1774896992.2084944,
+    "hash": "092c6937f28c1dff19a7d561f5f98360"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\vite-env.d.ts": {
+    "mtime": 1774896992.2140856,
+    "hash": "0352474ba2918efe13895edbc3780d94"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\api\\ai.ts": {
+    "mtime": 1778347233.0118127,
+    "hash": "6add75babf6694453965f1a486f406d4"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\NavLink.tsx": {
+    "mtime": 1774896992.2328203,
+    "hash": "8f7c178b4776787e58e1011855ca28f6"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\auth\\auth-modals.tsx": {
+    "mtime": 1774896992.2483351,
+    "hash": "e6a1ed6bbce00a96d11d5f9f6185c797"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\layout\\onboarding-tour.tsx": {
+    "mtime": 1778402941.6281471,
+    "hash": "ac7d76e6a7640a8bda0f9035e19fa7c6"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\accordion.tsx": {
+    "mtime": 1774896992.3071368,
+    "hash": "f9ebb6ee913b44e5f3e06fe1d9679784"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\alert-dialog.tsx": {
+    "mtime": 1774896992.3136475,
+    "hash": "2ee6c5e5e070315114319bc060d17a52"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\alert.tsx": {
+    "mtime": 1774896992.3196533,
+    "hash": "354d0206f924d48bcebbb023c3940a6b"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\aspect-ratio.tsx": {
+    "mtime": 1774896992.3251617,
+    "hash": "c5c364545e1b25a94e9e752cd67ad048"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\avatar.tsx": {
+    "mtime": 1774896992.3450408,
+    "hash": "53921dca0903c74cd72fada89388d9f8"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\badge.tsx": {
+    "mtime": 1774896992.3500457,
+    "hash": "8db4e6d330f88f4041f81e7cde43782b"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\breadcrumb.tsx": {
+    "mtime": 1774896992.3540597,
+    "hash": "c200fc41e9b214ebb6ccd19a300c42c5"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\button.tsx": {
+    "mtime": 1774896992.359061,
+    "hash": "b59f5a3c54b63cf3ea4eb2523151f617"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\calendar.tsx": {
+    "mtime": 1774896992.3635764,
+    "hash": "1da7a387f28cdb11722da319c0295a6c"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\card.tsx": {
+    "mtime": 1774896992.3675816,
+    "hash": "202402023747c80d975f48b906e6eb1b"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\carousel.tsx": {
+    "mtime": 1774896992.3740973,
+    "hash": "63a7442a3088b58113c8a8cfc1defe26"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\chart.tsx": {
+    "mtime": 1774896992.3780978,
+    "hash": "29cfd7470f3197deccd58b2b4f00fbae"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\checkbox.tsx": {
+    "mtime": 1774896992.3831952,
+    "hash": "cb12d2f3410761f7a678add95c90ac5d"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\collapsible.tsx": {
+    "mtime": 1774896992.3877032,
+    "hash": "934b00582dae08af749fb55469081de6"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\command.tsx": {
+    "mtime": 1774896992.391376,
+    "hash": "e911f182b4136a63c601c3fc48b2e9c7"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\context-menu.tsx": {
+    "mtime": 1774896992.397381,
+    "hash": "9b8e8efdf0456cd542e32d341b071cac"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\dialog.tsx": {
+    "mtime": 1774896992.4018934,
+    "hash": "fc3a9626ba52435552c93ac3a74374ec"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\drawer.tsx": {
+    "mtime": 1774896992.4078918,
+    "hash": "05e2b536fe11649e9b4c6e73678e32a6"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\dropdown-menu.tsx": {
+    "mtime": 1774896992.413414,
+    "hash": "f308eb98a2e21bf8bd1e30dbcb741dc0"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\form.tsx": {
+    "mtime": 1774896992.417421,
+    "hash": "4bb820d59aad3ee5bc78097596298ace"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\hover-card.tsx": {
+    "mtime": 1774896992.4229298,
+    "hash": "f77f80ed64ff8f3549e5d7e9d837e08e"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\input-otp.tsx": {
+    "mtime": 1774896992.4299357,
+    "hash": "3fb5994635434d5168bee869689fc2aa"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\input.tsx": {
+    "mtime": 1774896992.4334517,
+    "hash": "b8279d768c2a1ce78a05a369a0502877"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\label.tsx": {
+    "mtime": 1774896992.4384513,
+    "hash": "cd2b2255bbe519cb0865dfeaa6615797"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\menubar.tsx": {
+    "mtime": 1774896992.4419649,
+    "hash": "163c3fa58a2b4ea2caa00166f4d862c7"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\navigation-menu.tsx": {
+    "mtime": 1774896992.446962,
+    "hash": "77e94b0c299d10c3763d2755bf556916"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\pagination.tsx": {
+    "mtime": 1774896992.4539738,
+    "hash": "a3ced9f9b19826b467d788b1bf01746f"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\popover.tsx": {
+    "mtime": 1774896992.457976,
+    "hash": "c056d22288a642b756b77c7691ad4532"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\progress.tsx": {
+    "mtime": 1774896992.4664907,
+    "hash": "9a8b05beca19e008a562a10e489f5968"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\radio-group.tsx": {
+    "mtime": 1774896992.469998,
+    "hash": "3773798b5b2f334a5db0dc9c8d06f1b8"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\resizable.tsx": {
+    "mtime": 1774896992.47401,
+    "hash": "ec681e92cbe705b5571ded11b5227a2a"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\safe-icon.tsx": {
+    "mtime": 1778400585.6155682,
+    "hash": "176f8a63d5d93fe99f4e5af1f2d7a18b"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\scroll-area.tsx": {
+    "mtime": 1774896992.479009,
+    "hash": "cfbc224001af0e6daba676de225a2a47"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\select.tsx": {
+    "mtime": 1774896992.4830205,
+    "hash": "25de64d0126624cbd8efa50cfb64bd21"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\separator.tsx": {
+    "mtime": 1774896992.48802,
+    "hash": "ed1101f185e9dc801712593e3330a75d"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\sheet.tsx": {
+    "mtime": 1774896992.493532,
+    "hash": "3660be09e2e40467a22fd46b354c1b50"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\sidebar.tsx": {
+    "mtime": 1774896992.4975336,
+    "hash": "9eab1256b1ffe3f1336eebfd07b319c9"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\skeleton.tsx": {
+    "mtime": 1774896992.5020485,
+    "hash": "c55f76f4faa1d6e888dbc51d41eaa586"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\slider.tsx": {
+    "mtime": 1774896992.508047,
+    "hash": "e3bf7b6116ddbdbe8c7b3597d07daee0"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\sonner.tsx": {
+    "mtime": 1774896992.5136425,
+    "hash": "88644703cc00886c56e0e3b7df0e21d8"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\switch.tsx": {
+    "mtime": 1774896992.5267053,
+    "hash": "eccd8c41c46e782eaaa1f8be0111e089"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\table.tsx": {
+    "mtime": 1774896992.532222,
+    "hash": "d0ff87c4734c23839337811378ad07df"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\tabs.tsx": {
+    "mtime": 1774896992.5362234,
+    "hash": "26b15e1ffce0f831be4da95b8f8a43df"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\textarea.tsx": {
+    "mtime": 1774896992.5412393,
+    "hash": "29ab470ee59e9da5070d4fba251bce81"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\toast.tsx": {
+    "mtime": 1774896992.545244,
+    "hash": "7c08b5cb6026058514672a4ebc53847e"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\toaster.tsx": {
+    "mtime": 1774896992.5507565,
+    "hash": "1903846ab268620de6356ef667e3fa21"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\toggle-group.tsx": {
+    "mtime": 1774896992.5557559,
+    "hash": "e82bf234e3877ad708ea3d1dba614def"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\toggle.tsx": {
+    "mtime": 1774896992.5587564,
+    "hash": "ff7a7deebff23c3488e79ad72ee47e4b"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\tooltip.tsx": {
+    "mtime": 1774896992.5643618,
+    "hash": "d7e923341b9e91d77db45ba5f2fa0cf9"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\components\\ui\\use-toast.ts": {
+    "mtime": 1774896992.5683627,
+    "hash": "4f094014a1315ca1081cbdc7f78d55cc"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\features\\ai\\components\\ai-assistant.tsx": {
+    "mtime": 1778402903.7226355,
+    "hash": "3addb79e302bd02528d487168b7bb07f"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\features\\community\\components\\community-feed.tsx": {
+    "mtime": 1778406926.3104558,
+    "hash": "e5ca326287490f6e5ca82ab6999c8214"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\features\\community\\components\\post-card.tsx": {
+    "mtime": 1778406935.0346797,
+    "hash": "6ea70c5b1323d27fc2839937a280caee"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\features\\homepage\\HomePage.tsx": {
+    "mtime": 1778400623.613572,
+    "hash": "f5a713aeff0b80a7a9f6397c71f1de39"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\features\\pcb\\components\\pcb-designer.tsx": {
+    "mtime": 1778402484.0712566,
+    "hash": "c98a91d4f12b439182e16877cc2d04dc"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\features\\protocode-studio\\ProtoCodeStudio.tsx": {
+    "mtime": 1778406892.6440213,
+    "hash": "e4b6aeb57ca3efdc365173cf151ad09f"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\features\\protocode-studio\\adapters\\executionAdapter.ts": {
+    "mtime": 1778400638.8779955,
+    "hash": "f700282bf96d7d10e19c426e4a38552c"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\features\\simulation\\components\\bom-estimator.tsx": {
+    "mtime": 1774896992.2568524,
+    "hash": "62a3c2360e6e4c4808e33a803c496a21"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\features\\simulation\\components\\comment-note.tsx": {
+    "mtime": 1778346912.2637985,
+    "hash": "88630cb03b97ea438fcc16a45e3bf481"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\features\\simulation\\components\\component-library.tsx": {
+    "mtime": 1778402606.8494034,
+    "hash": "19f0ff3e5308459341538f03a10c086c"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\features\\simulation\\components\\inspector-panel.tsx": {
+    "mtime": 1778402624.3671281,
+    "hash": "526ff6703cae296df59928e2de3bf606"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\features\\simulation\\components\\share-modal.tsx": {
+    "mtime": 1774896992.2871087,
+    "hash": "8297bf9ed946bf1d916f136f4089591a"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\features\\simulation\\components\\simulation-canvas.tsx": {
+    "mtime": 1778406983.1103175,
+    "hash": "f5e9b571cc8b64e122ce78214026c66f"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\features\\simulation\\components\\simulation-lab.tsx": {
+    "mtime": 1778402510.383841,
+    "hash": "ae97f3ca0b046cc9f99f0e40086acd77"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\features\\simulation\\components\\simulation-toolbar.tsx": {
+    "mtime": 1778402574.1882763,
+    "hash": "5d2a1c1c1b55962839d49261f5cacf5e"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\features\\simulation\\components\\wire-layer.tsx": {
+    "mtime": 1778346855.392126,
+    "hash": "36fb08b80034ffecdd189620d5e67086"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\features\\simulation\\constants\\component-defs.tsx": {
+    "mtime": 1778346833.6565993,
+    "hash": "dd948ff452da6b8f98f9fd54169634c5"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\features\\simulation\\constants\\wire-types.ts": {
+    "mtime": 1778347003.770644,
+    "hash": "a95b3b920171c1e90be38bacb1cce404"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\features\\simulation\\hooks\\use-simulation-history.ts": {
+    "mtime": 1778346944.8452146,
+    "hash": "c35f2374f326bcad20f03331163145b0"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\features\\simulation\\hooks\\use-simulation-viewport.ts": {
+    "mtime": 1778347011.397138,
+    "hash": "c60cc096a8d974eb0eb09ea882825212"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\features\\simulation\\hooks\\use-wire-system.ts": {
+    "mtime": 1778346841.630866,
+    "hash": "ec30e71e38285df6c5fbcd579913befc"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\features\\simulation\\types\\index.ts": {
+    "mtime": 1778346809.348421,
+    "hash": "fcdaaccdfa7cff17d5099e58aa853fbb"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\features\\store\\components\\store-page.tsx": {
+    "mtime": 1778402368.087463,
+    "hash": "7192e7043b1fafae43ac509ae855d631"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\features\\store\\data\\store-data.ts": {
+    "mtime": 1778400636.8750083,
+    "hash": "ec14808ff49b7febe6946723d8c086c5"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\hooks\\use-mobile.tsx": {
+    "mtime": 1774896992.5769727,
+    "hash": "c0a0bdd4638c391a1dd06ac82074e60b"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\hooks\\use-toast.ts": {
+    "mtime": 1774896992.5833645,
+    "hash": "e706bc004c87e17db559a113637eddea"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\lib\\utils.ts": {
+    "mtime": 1774896992.5918722,
+    "hash": "d9837f38cc05303254571985e3164050"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\pages\\index.tsx": {
+    "mtime": 1778406756.1431909,
+    "hash": "f91bfa16002cfa9cb5084a6e826dacc3"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\pages\\not-found.tsx": {
+    "mtime": 1774896992.6028876,
+    "hash": "233617e24ded7876ea905f003f0f2889"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\pages\\project-viewer.tsx": {
+    "mtime": 1774896992.6068878,
+    "hash": "5071e39091118191a352761242a5342a"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\pages\\user-profile.tsx": {
+    "mtime": 1778347464.2819507,
+    "hash": "e22c0d14cf05bd8d3087617f30a3c818"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\store\\useCollaboration.ts": {
+    "mtime": 1774896992.6225758,
+    "hash": "04db6537b4ee421cc2a0805eb8879c1c"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\store\\useStore.ts": {
+    "mtime": 1774896992.6275754,
+    "hash": "d681aa369e458ae346f8eca53df77d94"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\test\\example.test.ts": {
+    "mtime": 1774896992.6361012,
+    "hash": "f7aec10728902324d57cf05ee8a8e57e"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\src\\test\\setup.ts": {
+    "mtime": 1774896992.6401157,
+    "hash": "3ed816a7adf0e76610ce76bd32744ea0"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\index.html": {
+    "mtime": 1778345672.1948166,
+    "hash": "4018a3d2fe1dffd0c55f0f4a082cce26"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\docs\\API-Contracts.md": {
+    "mtime": 1774896991.9119499,
+    "hash": "24fc3350588fe629ede18dcfe9123efd"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\docs\\Core-Engine-Spec.md": {
+    "mtime": 1774896991.9164782,
+    "hash": "a5c174811af3e397bbbeb20d772500df"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\docs\\Database-Schema.md": {
+    "mtime": 1774896991.9250169,
+    "hash": "5f0ce01c5c66929dea0aab94de9dd419"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\docs\\Development-Phases.md": {
+    "mtime": 1774896991.9320521,
+    "hash": "3e8c18f0fb696d9d6bd05b5a892b1315"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\docs\\Engineering-Rules.md": {
+    "mtime": 1774896991.9380682,
+    "hash": "a0bc347d1d69058b31496057d7ae7b2c"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\docs\\Engineering-Scope-Definition.md": {
+    "mtime": 1774896991.9437764,
+    "hash": "b3856cc6da76499a070293dc8c14e978"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\docs\\Environment-and-DevOps.md": {
+    "mtime": 1774896991.9477768,
+    "hash": "f490c9499cd973d385216717861fb14b"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\docs\\Failure-Scenarios.md": {
+    "mtime": 1774896991.9523022,
+    "hash": "9312c41620eb7717f23d2f5ec4662fb7"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\docs\\Implementation-Plan.md": {
+    "mtime": 1774896991.9598145,
+    "hash": "8ff53aba9aac505b73847685d97c4de6"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\docs\\Information-Architecture.md": {
+    "mtime": 1774896991.9643443,
+    "hash": "57343efa3b5f4a5df0077be3b3f70abb"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\docs\\Market-Analysis.md": {
+    "mtime": 1774896991.9683425,
+    "hash": "2eae9eb94aa6c209d3e0c26d5eaff9b5"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\docs\\Monorepo-Structure.md": {
+    "mtime": 1774896991.9802473,
+    "hash": "dccf9e29f2ffe415184c682fb37fc545"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\docs\\PRD.md": {
+    "mtime": 1774896991.993822,
+    "hash": "22be9468f736fb11a17afad9495c47ef"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\docs\\Problem-Statement.md": {
+    "mtime": 1774896992.001838,
+    "hash": "7cac962836a13e10d84c0744b6afa3dd"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\docs\\README.md": {
+    "mtime": 1774896992.0068436,
+    "hash": "940c6b18d1cc8378daa51131ea5d4916"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\docs\\Success-Metrics.md": {
+    "mtime": 1774896992.013358,
+    "hash": "243d349957d9c67717e3e14be81929ff"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\docs\\System-Architecture.md": {
+    "mtime": 1774896992.0203776,
+    "hash": "f8f610d6404672a1e9597837f3ca1b2a"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\docs\\Testing-Strategy.md": {
+    "mtime": 1774896992.027388,
+    "hash": "68a2650b269d1e2d2fcfc667ee62f426"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\docs\\User-Stories-and-Acceptance-Criteria.md": {
+    "mtime": 1774896992.0419188,
+    "hash": "b2e5beef6dd0b96d551e1c06eacf4f13"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\public\\robots.txt": {
+    "mtime": 1774896992.1773844,
+    "hash": "f9dff89adf98833e676de2205921996a"
+  },
+  "D:\\TEST-0.1\\proto-circuit-studio-main\\public\\placeholder.svg": {
+    "mtime": 1774896992.166874,
+    "hash": "b501d7dff3280ac829c321fe854d99d0"
+  }
+}

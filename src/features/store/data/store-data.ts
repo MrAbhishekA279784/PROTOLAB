@@ -22,92 +22,97 @@ export interface StoreItem {
   stock: string;
   gallery: string[];
   mockReviews: ProductReview[];
+  compatibleBoards?: string[];
+  wiringHint?: string;
 }
 
 const RAW_ITEMS = [
   {
     id: 'arduino-uno',
-    title: 'Arduino Uno R3',
-    category: 'Microcontrollers',
-    price: 24.99,
-    rating: 4.8,
-    reviewsCount: 124,
-    image: 'https://images.unsplash.com/photo-1548611716-10777fa1133f?auto=format&fit=crop&w=300&q=80',
+    title: 'Arduino Uno R3 (Official)',
+    category: 'Arduino',
+    price: 1999,
+    rating: 4.9,
+    reviewsCount: 1540,
+    image: 'https://images.unsplash.com/photo-1548611716-10777fa1133f?auto=format&fit=crop&w=600&q=80',
     badge: 'Popular',
     shortDescription: 'The industry standard for learning electronics and rapid prototyping.',
-    fullDescription: 'The Arduino Uno R3 is a microcontroller board based on the ATmega328P.',
+    fullDescription: 'The Arduino Uno R3 is a microcontroller board based on the ATmega328P. It has 14 digital input/output pins, 6 analog inputs, a 16 MHz quartz crystal, a USB connection, a power jack, an ICSP header and a reset button.',
     specs: { 'Voltage': '5V', 'Input Voltage': '7-12V', 'Digital I/O': '14', 'Analog Inputs': '6', 'Flash Memory': '32 KB', 'Clock Speed': '16 MHz' },
-    stock: 'In Stock'
+    stock: 'In Stock',
+    compatibleBoards: ['Breadboard', 'Arduino Shields', 'ESP32 (via Logic Level)'],
+    wiringHint: 'Connect the USB cable to your PC and the Uno. The ON LED should light up.'
   },
   {
     id: 'esp32-devkit',
-    title: 'ESP32 DevKit V1',
-    category: 'Microcontrollers',
-    price: 9.99,
+    title: 'ESP32 DevKit V1 - Wi-Fi/BT',
+    category: 'ESP32',
+    price: 850,
     rating: 4.9,
-    reviewsCount: 156,
-    image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=300&q=80',
+    reviewsCount: 2100,
+    image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80',
     badge: 'Best Seller',
     shortDescription: 'Powerful dual-core processor with integrated Wi-Fi and Bluetooth.',
-    fullDescription: 'ESP32 is a single 2.4 GHz Wi-Fi-and-Bluetooth combo chip.',
+    fullDescription: 'ESP32 is a single 2.4 GHz Wi-Fi-and-Bluetooth combo chip. It features a dual-core Xtensa® 32-bit LX6 microprocessor with up to 600 DMIPS.',
     specs: { 'Voltage': '3.3V', 'Cores': 'Dual Core', 'Wi-Fi': '802.11 b/g/n', 'Bluetooth': 'v4.2 BR/EDR', 'RAM': '520 KB', 'Speed': '240 MHz' },
-    stock: 'High Demand'
+    stock: 'High Demand',
+    compatibleBoards: ['ESP32 Expansion Board', 'OLED Displays', 'LiPo Battery'],
+    wiringHint: 'Use 3.3V logic level shifters if connecting to 5V sensors.'
   },
   {
-    id: 'sensors-kit',
-    title: 'Precision Sensor Kit',
-    category: 'Kits',
-    price: 35.00,
-    rating: 4.7,
-    reviewsCount: 56,
-    image: 'https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=300&q=80',
-    badge: 'Value Pack',
-    shortDescription: 'Comprehensive set of 36 high-quality sensors for various applications.',
-    fullDescription: 'This sensor kit is perfect for beginners and experts alike.',
-    specs: { 'Total Items': '36', 'Storage': 'Hard Shell Case', 'Manual': 'Included (Digital)', 'Compatibility': 'Arduino, ESP32, Pi' },
-    stock: 'In Stock'
+    id: 'lidar-a1m8',
+    title: 'RPLIDAR A1M8 - 360° Laser Scanner',
+    category: 'Robotics',
+    price: 12500,
+    rating: 4.8,
+    reviewsCount: 85,
+    image: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=600&q=80',
+    badge: 'High Precision',
+    shortDescription: 'Low-cost 360-degree 2D laser scanner for SLAM and robotics applications.',
+    fullDescription: 'RPLIDAR A1 is a low cost 360 degree 2D laser scanner (LIDAR) solution developed by SLAMTEC. The system can perform 360 degree scan within 12-meter range.',
+    specs: { 'Range': '0.15m - 12m', 'Angular Res': '1°', 'Sample Rate': '8000 Hz', 'Scan Freq': '5.5 Hz', 'Voltage': '5V', 'Interface': 'UART' },
+    stock: 'In Stock',
+    compatibleBoards: ['Arduino Mega', 'Raspberry Pi', 'Jetson Nano'],
+    wiringHint: 'Requires a dedicated 5V 1A power supply for the motor and core.'
   }
 ];
 
 const MOCK_REVIEWS_TEMPLATES: ProductReview[] = [
-  { user: 'Alex G.', rating: 5, date: 'Oct 12, 2025', text: 'Excellent quality, worked perfectly for my smart home project.' },
-  { user: 'Sarah M.', rating: 4, date: 'Nov 02, 2025', text: 'Good documentation, though the headers needed some soldering.' },
-  { user: 'ElectronicsGuru', rating: 5, date: 'Dec 15, 2025', text: 'The best value I have found online. Fast shipping too.' },
-  { user: 'StudentE', rating: 3, date: 'Jan 05, 2026', text: 'A bit expensive compared to other sites, but the quality is high.' },
+  { user: 'Dr. Engineering', rating: 5, date: 'Oct 12, 2025', text: 'Signal integrity is top-notch. Passed all our EMI testing cycles without issues. Highly recommended for industrial prototypes.' },
+  { user: 'MakerPro_99', rating: 5, date: 'Nov 22, 2025', text: 'The documentation provided in the ProtoLab workspace was exactly what I needed to get this integrated in under 10 minutes.' },
+  { user: 'RoboTech Labs', rating: 4, date: 'Dec 05, 2025', text: 'Great performance-to-price ratio. The mounting holes are standard, which made chassis integration very straightforward.' },
 ];
 
 export const STORE_ITEMS: StoreItem[] = [];
 
-// Seed the items from RAW
+// Seed
 RAW_ITEMS.forEach(item => {
   STORE_ITEMS.push({
     ...item,
-    price: item.price * 80,
     gallery: [item.image, item.image, item.image],
     mockReviews: [...MOCK_REVIEWS_TEMPLATES]
   });
 });
 
-// Generate items to fill catalog
 const CATEGORIES_CONFIG: Record<string, { prefix: string; count: number; priceRange: [number, number] }> = {
-  'Microcontrollers': { prefix: 'MCU', count: 100, priceRange: [150, 2500] },
-  'Sensors': { prefix: 'SNSR', count: 150, priceRange: [50, 1500] },
-  'Modules': { prefix: 'MOD', count: 150, priceRange: [200, 3500] },
-  'Passive Components': { prefix: 'COMP', count: 150, priceRange: [2, 100] },
-  'Transistors & ICs': { prefix: 'SEMI', count: 100, priceRange: [10, 500] },
-  'Motors & Actuators': { prefix: 'MTR', count: 100, priceRange: [150, 5000] },
-  'Power Supplies': { prefix: 'PWR', count: 100, priceRange: [100, 4500] },
-  'Development Boards': { prefix: 'BRD', count: 100, priceRange: [300, 8000] },
-  'Kits': { prefix: 'KIT', count: 50, priceRange: [500, 12000] }
+  'Arduino': { prefix: 'ARD', count: 40, priceRange: [500, 5000] },
+  'ESP32': { prefix: 'ESP', count: 40, priceRange: [400, 2500] },
+  'Sensors': { prefix: 'SNSR', count: 100, priceRange: [50, 3000] },
+  'Modules': { prefix: 'MOD', count: 100, priceRange: [150, 4500] },
+  'PCB Tools': { prefix: 'TOOL', count: 40, priceRange: [200, 8000] },
+  'Motors': { prefix: 'MTR', count: 60, priceRange: [100, 6000] },
+  'Displays': { prefix: 'DISP', count: 60, priceRange: [300, 12000] },
+  'Power Supplies': { prefix: 'PWR', count: 60, priceRange: [100, 7000] },
+  'Robotics': { prefix: 'ROB', count: 40, priceRange: [1000, 25000] },
+  'IoT': { prefix: 'IOT', count: 40, priceRange: [500, 10000] }
 };
 
 const CATEGORY_NAMES = Object.keys(CATEGORIES_CONFIG);
 
 const getPlaceholder = (cat: string, index: number) => {
   const colors = ['1e293b', '0f172a', '1e1b4b', '111827'];
-  const textColor = 'cbd5e1';
   const color = colors[index % colors.length];
-  return `https://placehold.co/600x400/${color}/${textColor}?text=${encodeURIComponent(cat)}+${index}`;
+  return `https://placehold.co/800x600/${color}/cbd5e1?text=${encodeURIComponent(cat)}+${index}`;
 };
 
 CATEGORY_NAMES.forEach(cat => {
@@ -123,57 +128,29 @@ CATEGORY_NAMES.forEach(cat => {
 
     STORE_ITEMS.push({
       id,
-      title: `${cat} ${config.prefix}-${1000 + i}`,
+      title: `Professional ${cat} ${config.prefix}-${1000 + i}`,
       category: cat,
       price,
       rating,
       reviewsCount: reviews,
       image: img,
-      badge: i % 20 === 0 ? 'New' : i % 25 === 0 ? 'Best Seller' : '',
-      shortDescription: `Professional grade ${cat.toLowerCase()} for high-precision engineering projects.`,
-      fullDescription: `This ${cat.toLowerCase()} component is part of our professional engineering series.`,
+      badge: i % 15 === 0 ? 'New' : i % 25 === 0 ? 'Featured' : '',
+      shortDescription: `Advanced ${cat.toLowerCase()} component for precision engineering.`,
+      fullDescription: `The ${cat} ${config.prefix}-${1000 + i} is a high-performance solution designed for professional environments. It offers reliable operation with verified specifications.`,
       specs: {
         'Type': cat,
-        'Model': `${config.prefix}-${1000 + i}`,
-        'Voltage': i % 2 === 0 ? '5V' : '3.3V',
-        'Interface': i % 3 === 0 ? 'I2C' : 'Digital',
-        'Origin': 'Verified Global Partner'
+        'Interface': i % 2 === 0 ? 'I2C' : 'SPI',
+        'Voltage': i % 3 === 0 ? '3.3V' : '5V',
+        'Origin': 'Global Partner'
       },
-      stock: i % 15 === 0 ? 'Out of Stock' : i % 12 === 0 ? 'Limited' : 'In Stock',
+      stock: i % 12 === 0 ? 'Limited Stock' : 'In Stock',
       gallery: [img, img],
-      mockReviews: [...MOCK_REVIEWS_TEMPLATES.slice(0, Math.floor(Math.random() * 3) + 1)]
+      mockReviews: [...MOCK_REVIEWS_TEMPLATES.slice(0, Math.floor(Math.random() * 3) + 1)],
+      compatibleBoards: [cat === 'Arduino' ? 'Arduino Uno' : 'ESP32 DevKit'],
+      wiringHint: 'Refer to the datasheet for specific pinout diagrams.'
     });
   }
 });
-
-// Fill to 1000 items if needed
-const currentCount = STORE_ITEMS.length;
-if (currentCount < 1000) {
-  for (let i = 0; i < (1000 - currentCount); i++) {
-    const cat = CATEGORY_NAMES[i % CATEGORY_NAMES.length];
-    const config = CATEGORIES_CONFIG[cat];
-    const id = `extra-${i}`;
-    const price = Math.floor(Math.random() * (config.priceRange[1] - config.priceRange[0]) + config.priceRange[0]);
-    const img = getPlaceholder(cat, i + 1000);
-
-    STORE_ITEMS.push({
-      id,
-      title: `Industrial ${cat} Unit ${i + 5000}`,
-      category: cat,
-      price,
-      rating: 4.5,
-      reviewsCount: 88,
-      image: img,
-      badge: '',
-      shortDescription: 'High-reliability industrial component for mission-critical systems.',
-      fullDescription: 'Designed for 24/7 operation in harsh environments.',
-      specs: { 'Standard': 'IEC 61010', 'Life': '100,000 hrs' },
-      stock: 'In Stock',
-      gallery: [img],
-      mockReviews: [MOCK_REVIEWS_TEMPLATES[0]]
-    });
-  }
-}
 
 export function getProductById(id: string) {
   return STORE_ITEMS.find(item => item.id === id);
