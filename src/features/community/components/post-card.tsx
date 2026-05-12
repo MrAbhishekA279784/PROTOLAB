@@ -1,4 +1,4 @@
-import { useStore, Post } from "@/store/useStore";
+import { useStore, Post, Comment } from "@/store/useStore";
 import { formatDistanceToNow } from "date-fns";
 import {
   Heart, MessageSquare, Share2, Eye, Code2, CircuitBoard, Cpu,
@@ -209,7 +209,7 @@ export function PostCard({ post, onViewProject }: { post: Post, onViewProject?: 
                                <p className="text-muted-foreground text-[13px] leading-snug">{comment.text}</p>
                                <div className="flex items-center gap-3 mt-1.5">
                                  <button onClick={() => upvoteComment(post.id, comment.id)} className="flex items-center gap-1 text-[10px] sm:text-[11px] font-semibold text-muted-foreground hover:text-success transition-colors">
-                                    <ThumbsUp className="w-3 h-3" /> {(comment as any).upvotes || 0} Upvotes
+                                    <ThumbsUp className="w-3 h-3" /> {comment.upvotes || 0} Upvotes
                                  </button>
                                  <button onClick={() => setReplyToId(comment.id)} className="flex items-center gap-1 text-[10px] sm:text-[11px] font-semibold text-muted-foreground hover:text-primary transition-colors">
                                     <Reply className="w-3 h-3" /> Reply
@@ -219,30 +219,30 @@ export function PostCard({ post, onViewProject }: { post: Post, onViewProject?: 
                        </div>
 
                        {/* Nested Replies */}
-                       {comment.replies?.length > 0 && (
-                          <div className="ml-10 space-y-2 mt-1 relative before:content-[''] before:absolute before:-left-3.5 before:top-0 before:w-px before:h-full before:bg-border">
-                             {comment.replies.map((reply) => {
-                               const replyAuthor = users.find(u => u.id === reply.userId);
-                               return (
-                                 <div key={reply.id} className="flex items-start gap-2 relative">
-                                     <div className="absolute -left-3.5 top-2.5 w-3 h-px bg-border" />
-                                     <div className="w-5 h-5 rounded-full bg-secondary flex items-center justify-center shrink-0 border border-card shadow-sm">
-                                         <span className="text-[8px] font-bold text-muted-foreground">{replyAuthor?.username.charAt(0).toUpperCase()}</span>
-                                     </div>
-                                     <div className="bg-card px-2.5 py-1.5 rounded-lg rounded-tl-none border border-border flex-1 shadow-sm">
-                                         <span className="font-semibold text-[11px] block text-foreground mb-0.5">{replyAuthor?.username}</span>
-                                         <p className="text-muted-foreground text-xs leading-snug">{reply.text}</p>
-                                         <div className="flex items-center gap-3 mt-1.5">
-                                            <button onClick={() => upvoteComment(post.id, reply.id)} className="flex items-center gap-1 text-[10px] sm:text-[11px] font-semibold text-muted-foreground hover:text-success transition-colors">
-                                               <ThumbsUp className="w-3 h-3" /> {(reply as any).upvotes || 0} Upvotes
-                                            </button>
-                                         </div>
-                                     </div>
-                                 </div>
-                               );
-                             })}
-                          </div>
-                       )}
+{comment.replies?.length > 0 && (
+                           <div className="ml-10 space-y-2 mt-1 relative before:content-[''] before:absolute before:-left-3.5 before:top-0 before:w-px before:h-full before:bg-border">
+                              {comment.replies.map((reply: Comment) => {
+                                const replyAuthor = users.find(u => u.id === reply.userId);
+                                return (
+                                  <div key={reply.id} className="flex items-start gap-2 relative">
+                                      <div className="absolute -left-3.5 top-2.5 w-3 h-px bg-border" />
+                                      <div className="w-5 h-5 rounded-full bg-secondary flex items-center justify-center shrink-0 border border-card shadow-sm">
+                                          <span className="text-[8px] font-bold text-muted-foreground">{replyAuthor?.username.charAt(0).toUpperCase()}</span>
+                                      </div>
+                                      <div className="bg-card px-2.5 py-1.5 rounded-lg rounded-tl-none border border-border flex-1 shadow-sm">
+                                          <span className="font-semibold text-[11px] block text-foreground mb-0.5">{replyAuthor?.username}</span>
+                                          <p className="text-muted-foreground text-xs leading-snug">{reply.text}</p>
+                                          <div className="flex items-center gap-3 mt-1.5">
+                                             <button onClick={() => upvoteComment(post.id, reply.id)} className="flex items-center gap-1 text-[10px] sm:text-[11px] font-semibold text-muted-foreground hover:text-success transition-colors">
+                                                <ThumbsUp className="w-3 h-3" /> {reply.upvotes || 0} Upvotes
+                                             </button>
+                                          </div>
+                                      </div>
+                                  </div>
+                                );
+                              })}
+                           </div>
+                        )}
                     </div>
                   );
                 })}

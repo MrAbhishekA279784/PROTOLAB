@@ -9,10 +9,12 @@ export type User = {
   badges: string[];
 };
 
+export type ProjectData = Record<string, unknown>;
+
 export type ProjectVersion = {
   id: string;
   name: string;
-  data: any;
+  data: ProjectData;
   createdAt: string;
   modifiedBy: string;
 };
@@ -35,7 +37,7 @@ export type Post = {
   userId: string;
   type: PostType;
   title: string;
-  data: any;
+  data: ProjectData;
   preview: string;
   createdAt: string;
   likes: number;
@@ -56,7 +58,7 @@ interface AppState {
   posts: Post[];
   
   // Workspace State for loading viewed/forked projects
-  loadedProject: { type: PostType; data: any; id?: string } | null;
+  loadedProject: { type: PostType; data: ProjectData; id?: string } | null;
   
   // Theme state
   theme: "light" | "dark";
@@ -73,11 +75,11 @@ interface AppState {
   likePost: (postId: string) => void;
   addComment: (postId: string, text: string, replyToId?: string) => void;
   upvoteComment: (postId: string, commentId: string) => void;
-  saveVersion: (postId: string, name: string, data: any) => void;
+  saveVersion: (postId: string, name: string, data: ProjectData) => void;
   incrementViews: (postId: string) => void;
   awardBadge: (userId: string, badge: string) => void;
   forkProject: (postId: string) => string | undefined;
-  loadProject: (type: PostType, data: any, id?: string) => void;
+  loadProject: (type: PostType, data: ProjectData, id?: string) => void;
   clearLoadedProject: () => void;
   followUser: (userId: string) => void;
 }

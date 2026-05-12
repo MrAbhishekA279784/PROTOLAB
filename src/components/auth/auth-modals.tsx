@@ -1,139 +1,165 @@
-import { useState } from "react";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { useStore } from "@/store/useStore";
+import { useState, useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { useAuth } from "@/context/AuthContext";
+import AuthModal from "@/components/auth/AuthModal";
+import { motion, AnimatePresence } from "framer-motion";
+import { LogOut, User as UserIcon, Settings, ChevronDown } from "lucide-react";
 import { toast } from "sonner";
-import { LogOut, User as UserIcon } from "lucide-react";
 
 export function AuthButtons() {
-  const { currentUser, logout } = useStore();
-  const [isLoginOpen, setIsLoginOpen] = useState(false);
-  const [isSignUpOpen, setIsSignUpOpen] = useState(false);
+  const { user, profile, loading, logout } = useAuth();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
-  if (currentUser) {
+  // Close dropdown on outside click
+  useEffect(() => {
+    if (!isDropdownOpen) return;
+    const handler = (e: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target as Node)
+      ) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [isDropdownOpen]);
+
+  const handleLogout = async () => {
+    try {
+      setIsDropdownOpen(false);
+      await logout();
+      toast.success("Logged out successfully.");
+    } catch {
+      toast.error("Failed to log out.");
+    }
+  };
+
+  // -- Loading skeleton --
+  if (loading) {
     return (
-      <div className="flex items-center gap-3">
-        <div className="flex items-center gap-2 text-sm font-medium bg-secondary/50 px-3 py-1.5 rounded-full">
-          <UserIcon className="w-4 h-4" />
-          <span>{currentUser.username}</span>
-        </div>
-        <Button variant="ghost" size="sm" onClick={logout} className="gap-2">
-          <LogOut className="w-4 h-4" />
-          Logout
-        </Button>
+      <div className="w-8 h-8 rounded-full bg-secondary animate-pulse" />
+    );
+  }
+
+  // -- Logged in --
+  if (user) {
+    const avatarUrl = profile?.photoURL || user.photoURL;
+    const displayName =
+      profile?.username || profile?.displayName || user.displayName || "User";
+    const initials = displayName.charAt(0).toUpperCase();
+
+    return (
+      <div ref={dropdownRef} className="relative" id="auth-user-menu">
+        <button
+          onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+          className="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-secondary/60 transition-colors"
+          id="auth-avatar-btn"
+        >
+          {avatarUrl ? (
+            <img
+              src={avatarUrl}
+              alt={displayName}
+              className="w-7 h-7 rounded-full object-cover border border-border"
+            />
+          ) : (
+            <div className="w-7 h-7 rounded-full bg-primary/15 flex items-center justify-center text-xs font-bold text-primary border border-primary/20">
+              {initials}
+            </div>
+          )}
+          <span className="text-xs font-medium text-foreground hidden sm:inline-block max-w-[80px] truncate">
+            {displayName}
+          </span>
+          <ChevronDown
+            className={`w-3 h-3 text-muted-foreground transition-transform ${
+              isDropdownOpen ? "rotate-180" : ""
+            }`}
+          />
+        </button>
+
+        <AnimatePresence>
+          {isDropdownOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -4, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -4, scale: 0.96 }}
+              transition={{ duration: 0.15 }}
+              className="absolute right-0 top-full mt-2 w-48 rounded-xl border border-border bg-card shadow-lg overflow-hidden z-50"
+              id="auth-dropdown-menu"
+            >
+              {/* User info header */}
+              <div className="px-4 py-3 border-b border-border">
+                <p className="text-sm font-semibold text-foreground truncate">
+                  {displayName}
+                </p>
+                <p className="text-xs text-muted-foreground truncate">
+                  {user.email}
+                </p>
+              </div>
+
+              {/* Menu items */}
+              <div className="py-1">
+                {profile?.username && (
+                  <Link
+                    to={`/profile/${profile.username}`}
+                    onClick={() => setIsDropdownOpen(false)}
+                    className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-foreground hover:bg-secondary/60 transition-colors"
+                    id="auth-menu-profile"
+                  >
+                    <UserIcon className="w-4 h-4 text-muted-foreground" />
+                    Profile
+                  </Link>
+                )}
+                {!profile?.username && (
+                  <button
+                    onClick={() => setIsDropdownOpen(false)}
+                    className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-foreground hover:bg-secondary/60 transition-colors"
+                    id="auth-menu-profile-fallback"
+                  >
+                    <UserIcon className="w-4 h-4 text-muted-foreground" />
+                    Profile
+                  </button>
+                )}
+                <button
+                  onClick={() => setIsDropdownOpen(false)}
+                  className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-foreground hover:bg-secondary/60 transition-colors"
+                  id="auth-menu-settings"
+                >
+                  <Settings className="w-4 h-4 text-muted-foreground" />
+                  Settings
+                </button>
+              </div>
+
+              <div className="border-t border-border py-1">
+                <button
+                  onClick={handleLogout}
+                  className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-400 hover:bg-red-500/10 transition-colors"
+                  id="auth-menu-logout"
+                >
+                  <LogOut className="w-4 h-4" />
+                  Logout
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     );
   }
 
+  // -- Logged out --
   return (
-    <div className="flex items-center gap-2">
-      <Button variant="ghost" size="sm" onClick={() => setIsLoginOpen(true)}>
+    <>
+      <button
+        onClick={() => setIsModalOpen(true)}
+        className="px-4 py-1.5 rounded-lg bg-primary text-primary-foreground text-xs font-semibold hover:bg-primary/90 transition-all hover:scale-105 active:scale-95 shadow-md shadow-primary/20"
+        id="auth-login-btn"
+      >
         Login
-      </Button>
-      <Button size="sm" onClick={() => setIsSignUpOpen(true)}>
-        Sign Up
-      </Button>
-
-      <LoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
-      <SignUpModal isOpen={isSignUpOpen} onClose={() => setIsSignUpOpen(false)} />
-    </div>
-  );
-}
-
-function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
-  const [username, setUsername] = useState("");
-  const login = useStore((state) => state.login);
-
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      login(username);
-      toast.success(`Welcome back, ${username}!`);
-      onClose();
-    } catch (error: any) {
-      toast.error(error.message || "Failed to login");
-    }
-  };
-
-  return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle>Login</DialogTitle>
-          <DialogDescription>Enter your username to access your account.</DialogDescription>
-        </DialogHeader>
-        <form onSubmit={handleLogin} className="space-y-4 pt-4">
-          <div className="space-y-2">
-            <Label htmlFor="login-username">Username</Label>
-            <Input
-              id="login-username"
-              placeholder="e.g. protolab_admin"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-            />
-          </div>
-          <Button type="submit" className="w-full">
-            Login
-          </Button>
-        </form>
-      </DialogContent>
-    </Dialog>
-  );
-}
-
-function SignUpModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const signup = useStore((state) => state.signup);
-
-  const handleSignUp = (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      signup(username, email);
-      toast.success("Account created successfully!");
-      onClose();
-    } catch (error: any) {
-      toast.error(error.message || "Failed to create account");
-    }
-  };
-
-  return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle>Create Account</DialogTitle>
-          <DialogDescription>Join the community to share and like projects.</DialogDescription>
-        </DialogHeader>
-        <form onSubmit={handleSignUp} className="space-y-4 pt-4">
-          <div className="space-y-2">
-            <Label htmlFor="signup-username">Username</Label>
-            <Input
-              id="signup-username"
-              placeholder="Choose a username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="signup-email">Email</Label>
-            <Input
-              id="signup-email"
-              type="email"
-              placeholder="your@email.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-          <Button type="submit" className="w-full">
-            Sign Up
-          </Button>
-        </form>
-      </DialogContent>
-    </Dialog>
+      </button>
+      <AuthModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+    </>
   );
 }

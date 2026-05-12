@@ -61,7 +61,7 @@ export function useCollaboration(projectId: string | null) {
     }
   };
 
-  const broadcastState = (event: string, data: any) => {
+  const broadcastState = (event: string, data: unknown) => {
     if (channelRef.current) {
       channelRef.current.postMessage({ type: 'STATE_UPDATE', payload: { event, data } });
     }

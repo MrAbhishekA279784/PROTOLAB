@@ -1,8 +1,9 @@
 import { useParams, Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import { useStore } from "@/store/useStore";
 import { useEffect } from "react";
 import { PostCard } from "@/features/community/components/post-card";
-import { ArrowLeft, User as UserIcon, Users, Trophy } from "lucide-react";
+import { ArrowLeft, User as UserIcon, Users, Trophy, Cpu } from "lucide-react";
 import { AuthButtons } from "@/components/auth/auth-modals";
 
 export default function UserProfile() {
@@ -10,7 +11,17 @@ export default function UserProfile() {
   const { users, posts, followUser, currentUser, awardBadge } = useStore();
 
   const user = users.find((u) => u.username === username);
-  
+
+  const userPosts = posts.filter((p) => p.userId === user?.id);
+  const totalLikes = userPosts.reduce((acc, p) => acc + p.likes, 0);
+
+  useEffect(() => {
+    if (!user) return;
+    if (userPosts.length >= 1) awardBadge(user.id, "First Project");
+    if (userPosts.length >= 10) awardBadge(user.id, "10 Projects");
+    if (totalLikes >= 100) awardBadge(user.id, "100 Likes");
+  }, [user, userPosts.length, totalLikes, awardBadge]);
+
   if (!user) {
     return (
       <div className="flex flex-col items-center justify-center h-screen space-y-4">
@@ -20,25 +31,31 @@ export default function UserProfile() {
     );
   }
 
-  const userPosts = posts.filter((p) => p.userId === user.id);
-  const totalLikes = userPosts.reduce((acc, p) => acc + p.likes, 0);
-
-  useEffect(() => {
-    if (userPosts.length >= 1) awardBadge(user.id, "First Project");
-    if (userPosts.length >= 10) awardBadge(user.id, "10 Projects");
-    if (totalLikes >= 100) awardBadge(user.id, "100 Likes");
-  }, [userPosts.length, totalLikes, awardBadge, user.id]);
-
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
-      <header className="h-12 flex items-center justify-between px-4 border-b border-border bg-card shrink-0">
+      <header className="h-12 flex items-center justify-between px-4 border-b border-border bg-card shrink-0 relative z-20">
         <div className="flex items-center gap-4">
-          <Link to="/" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
-            <ArrowLeft className="w-4 h-4" /> Back to Labs
-          </Link>
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 400, damping: 20 }}
+          >
+            <Link
+              to="/"
+              className="flex items-center gap-2 shrink-0 group relative"
+              id="navbar-logo"
+            >
+              <div className="w-7 h-7 rounded-lg bg-primary flex items-center justify-center group-hover:shadow-[0_0_15px_rgba(79,107,255,0.4)] transition-shadow">
+                <Cpu className="w-4 h-4 text-primary-foreground" />
+              </div>
+              <span className="font-bold text-sm tracking-tight hidden sm:inline-block bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent group-hover:from-primary group-hover:to-primary/70 transition-all">
+                ProtoLab
+              </span>
+            </Link>
+          </motion.div>
           <div className="h-4 w-px bg-border" />
-          <span className="font-semibold text-sm tracking-tight">ProtoLab Profiles</span>
+          <span className="font-semibold text-sm tracking-tight text-muted-foreground">User Profiles</span>
         </div>
         <div className="flex items-center gap-4">
           <AuthButtons />

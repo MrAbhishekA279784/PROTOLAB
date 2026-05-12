@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import { Wire } from "../types";
+import { Wire, ComponentInstance, Pin } from "../types";
 import { COMPONENT_DEFS } from "../constants/component-defs";
 
 interface WireLayerProps {
   wires: Wire[];
-  components: any[];
+  components: ComponentInstance[];
   drawingWire: { startComp: string; startPin: string; endX: number; endY: number } | null;
   isRunning: boolean;
   simSpeed: number;
-  getPinAbsoluteCoords: (comp: any, pin: any) => { x: number; y: number };
+  getPinAbsoluteCoords: (comp: ComponentInstance, pin: Pin) => { x: number; y: number };
 }
 
 export const WireLayer: React.FC<WireLayerProps> = ({
@@ -39,8 +39,8 @@ export const WireLayer: React.FC<WireLayerProps> = ({
         const endComp = components.find((c) => c.id === w.endComp);
         if (!startComp || !endComp) return null;
 
-        const sPin = COMPONENT_DEFS[startComp.type]?.pins.find((p: any) => p.id === w.startPin);
-        const ePin = COMPONENT_DEFS[endComp.type]?.pins.find((p: any) => p.id === w.endPin);
+        const sPin = COMPONENT_DEFS[startComp.type]?.pins.find((p) => p.id === w.startPin);
+        const ePin = COMPONENT_DEFS[endComp.type]?.pins.find((p) => p.id === w.endPin);
         if (!sPin || !ePin) return null;
 
         const startCoords = getPinAbsoluteCoords(startComp, sPin);
@@ -99,7 +99,7 @@ export const WireLayer: React.FC<WireLayerProps> = ({
         (() => {
           const startComp = components.find((c) => c.id === drawingWire.startComp);
           if (!startComp) return null;
-          const sPin = COMPONENT_DEFS[startComp.type]?.pins.find((p: any) => p.id === drawingWire.startPin);
+          const sPin = COMPONENT_DEFS[startComp.type]?.pins.find((p) => p.id === drawingWire.startPin);
           if (!sPin) return null;
           const startCoords = getPinAbsoluteCoords(startComp, sPin);
           const flex = Math.abs(startCoords.x - drawingWire.endX) * 0.25;

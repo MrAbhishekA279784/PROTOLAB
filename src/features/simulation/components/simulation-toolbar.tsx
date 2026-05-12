@@ -1,4 +1,5 @@
 import React from "react";
+import { ComponentInstance, Post, ProjectVersion } from "@/store/useStore";
 import { 
   Undo, Redo, Activity, Trash2, Copy, RotateCw, RefreshCw, 
   MessageSquare, ScanSearch, ChevronDown, ChevronRight, 
@@ -19,25 +20,25 @@ interface SimulationToolbarProps {
   selectedIds: string[];
   activeTool: "select" | "comment" | "inspect";
   setActiveTool: (tool: "select" | "comment" | "inspect") => void;
-  selectedComp: any;
-  setInspectTarget: (comp: any) => void;
+  selectedComp: ComponentInstance | null;
+  setInspectTarget: (comp: ComponentInstance | null) => void;
   setShowInspect: (val: boolean) => void;
   showInspect: boolean;
   wireType: string;
-  setWireType: (type: any) => void;
+  setWireType: (type: string) => void;
   showWireDropdown: boolean;
   setShowWireDropdown: (val: boolean) => void;
-  WIRE_TYPES: any[];
-  currentWireType: any;
+  WIRE_TYPES: string[];
+  currentWireType: string;
   isRunning: boolean;
   setIsRunning: (val: boolean) => void;
   handleShareButton: () => void;
   loadTemplate: (name: string) => void;
-  setComponents: (comps: any[]) => void;
+  setComponents: (comps: ComponentInstance[]) => void;
   isOwner: boolean;
   handleSaveVersion: () => void;
-  activePost: any;
-  handleLoadVersion: (data: any) => void;
+  activePost: Post | null;
+  handleLoadVersion: (data: ProjectVersion["data"]) => void;
   handleExport: () => void;
 }
 
@@ -297,7 +298,7 @@ export const SimulationToolbar: React.FC<SimulationToolbarProps> = ({
               <History className="w-4 h-4" />
               <div className="absolute top-full right-0 mt-1 w-48 bg-popover border border-border rounded shadow-xl hidden group-hover:block z-50">
                 <p className="px-3 py-1.5 text-[10px] font-bold text-muted-foreground uppercase tracking-wider border-b border-border">Versions</p>
-                {activePost.versions.map((v: any, idx: number) => (
+                {activePost.versions.map((v, idx) => (
                   <button key={idx} onClick={() => handleLoadVersion(v.data)} className="w-full text-left px-3 py-2 text-xs hover:bg-muted border-b border-border last:border-0 truncate flex items-center justify-between text-foreground">
                     <span>{v.name}</span>
                     <span className="text-[9px] text-muted-foreground">{new Date(v.timestamp).toLocaleDateString()}</span>

@@ -1,8 +1,8 @@
 import { useState, useCallback } from "react";
-import { Wire } from "../types";
+import { Wire, ComponentInstance, Pin } from "../types";
 import { COMPONENT_DEFS } from "../constants/component-defs";
 
-export function useWireSystem(components: any[]) {
+export function useWireSystem(components: ComponentInstance[]) {
   const [wires, setWires] = useState<Wire[]>([]);
   const [drawingWire, setDrawingWire] = useState<{ startComp: string; startPin: string; endX: number; endY: number } | null>(null);
 
@@ -29,7 +29,7 @@ export function useWireSystem(components: any[]) {
 
   const cancelWire = useCallback(() => setDrawingWire(null), []);
 
-  const getPinAbsoluteCoords = (comp: any, pin: any) => {
+  const getPinAbsoluteCoords = (comp: ComponentInstance, pin: Pin) => {
     const def = COMPONENT_DEFS[comp.type];
     const cx = def.width / 2, cy = def.height / 2;
     const dx = pin.x - cx, dy = pin.y - cy;

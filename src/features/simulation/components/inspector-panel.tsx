@@ -2,8 +2,10 @@ import React from "react";
 import { X } from "lucide-react";
 import { COMPONENT_DEFS } from "../constants/component-defs";
 
+import { ComponentInstance } from "../types";
+
 interface InspectorPanelProps {
-  inspectTarget: any;
+  inspectTarget: ComponentInstance | null;
   setShowInspect: (val: boolean) => void;
 }
 

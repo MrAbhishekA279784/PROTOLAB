@@ -240,9 +240,9 @@ export default function ExactArduinoIDEPage() {
   // ==================================================
   // COPILOT MOCK
   // ==================================================
-  const handleEditorDidMount = useCallback((_editor: any, monaco: any) => {
+  const handleEditorDidMount = useCallback((_editor: unknown, monaco: { languages: { registerInlineCompletionsProvider: (language: string, provider: { provideInlineCompletions: (model: { getLineContent: (line: number) => string }, position: { lineNumber: number; column: number }) => Promise<{ items: { insertText: string; range: unknown }[] }>; freeInlineCompletions: () => void }) => void } }) => {
     monaco.languages.registerInlineCompletionsProvider('cpp', {
-      provideInlineCompletions: async (model: any, position: any) => {
+      provideInlineCompletions: async (model: { getLineContent: (line: number) => string }, position: { lineNumber: number; column: number }) => {
         const lineContent = model.getLineContent(position.lineNumber);
         const text = lineContent.substring(0, position.column - 1);
         let suggestion = '';
@@ -293,9 +293,10 @@ export default function ExactArduinoIDEPage() {
         setConsoleTab('errors');
         showToast('Compilation Failed');
       }
-    } catch (err: any) {
-      setOutputLogs(prev => [...prev, `✗ Compilation error: ${err.message}`]);
-      setErrorLogs([err.message]);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      setOutputLogs(prev => [...prev, `✗ Compilation error: ${message}`]);
+      setErrorLogs([message]);
     } finally {
       setIsCompiling(false);
     }
@@ -323,13 +324,14 @@ export default function ExactArduinoIDEPage() {
         setConsoleTab('errors');
         showToast('Upload Failed');
       }
-    } catch (err: any) {
-      setOutputLogs(prev => [...prev, `✗ Upload error: ${err.message}`]);
-      setErrorLogs([err.message]);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      setOutputLogs(prev => [...prev, `✗ Upload error: ${message}`]);
+      setErrorLogs([message]);
     } finally {
       setIsUploading(false);
     }
-  }, [code, isCompiling, isUploading, selectedBoard, selectedPort, addLog, showToast]);
+  }, [code, isCompiling, isUploading, selectedBoard, selectedPort, showToast]);
 
   const handleNew = useCallback(() => {
     setCode(DEFAULT_CODE);
@@ -369,8 +371,9 @@ export default function ExactArduinoIDEPage() {
         setLibStates(prev => ({ ...prev, [lib]: 'idle' }));
         setConsoleTab('errors');
       }
-    } catch (err: any) {
-      addLog(`✗ Install error: ${err.message}`);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      addLog(`✗ Install error: ${message}`);
       setLibStates(prev => ({ ...prev, [lib]: 'idle' }));
     }
   }, [addLog, showToast]);

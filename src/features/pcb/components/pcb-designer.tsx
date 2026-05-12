@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { useStore } from "@/store/useStore";
+import { useStore, Visibility, Complexity } from "@/store/useStore";
 import { toast } from "sonner";
 import { ShareModal } from "@/features/simulation/components/share-modal";
 import html2canvas from "html2canvas";
@@ -60,7 +60,7 @@ const PCBDesigner = () => {
     }
   };
 
-  const handleConfirmShare = async (meta: any) => {
+  const handleConfirmShare = async (meta: { title: string; visibility: Visibility; complexity: Complexity; tags: string[]; componentsUsed: string[] }) => {
     if (!currentUser) return;
     addPost({
       userId: currentUser.id,
@@ -92,7 +92,7 @@ const PCBDesigner = () => {
      toast.success("Exported Gerber package!");
   };
 
-  const handleLoadVersion = (vData: any) => {
+  const handleLoadVersion = (vData: { tracks?: { layer: string; path: { x: number; y: number }[] }[]; layerVisibility?: Record<string, boolean> }) => {
      if (vData.tracks) setTracks(vData.tracks);
      if (vData.layerVisibility) setLayerVisibility(vData.layerVisibility);
      toast.success("Version loaded.");
