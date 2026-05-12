@@ -1,9 +1,18 @@
 import React, { useState, useRef, useEffect, useCallback, useMemo } from "react";
-import { useStore } from "@/store/useStore";
+import { useStore, Visibility, Complexity, ProjectData } from "@/store/useStore";
 import { toast } from "sonner";
 import html2canvas from "html2canvas";
 import { useCollaboration } from "@/store/useCollaboration";
 import { Grid3X3, ArrowRight, DollarSign } from "lucide-react";
+import { ComponentInstance, Wire } from "@/features/simulation/types";
+
+interface CommentItem {
+  id: string;
+  x: number;
+  y: number;
+  text?: string;
+  editing?: boolean;
+}
 
 // Feature Modular Imports
 import { COMPONENT_DEFS } from "@/features/simulation/constants/component-defs";
@@ -30,9 +39,9 @@ export default function SimulationLab() {
   const [isPanning, setIsPanning] = useState(false);
 
   // Core State
-  const [components, setComponents] = useState<any[]>(
-    loadedProject?.type === "Simulation" && loadedProject.data?.components
-      ? loadedProject.data.components
+  const [components, setComponents] = useState<ComponentInstance[]>(
+    loadedProject?.type === "Simulation" && (loadedProject.data as ProjectData)?.components
+      ? (loadedProject.data as ProjectData).components as ComponentInstance[]
       : [
           { id: "ard1", type: "arduino", x: 400, y: 150, rotation: 0 },
           { id: "bat1", type: "battery", x: 100, y: 300, rotation: 0 },
@@ -57,15 +66,15 @@ export default function SimulationLab() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [activeSearchTerm, setActiveSearchTerm] = useState("");
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
-  const [draggingComp, setDraggingComp] = useState<any>(null);
+  const [draggingComp, setDraggingComp] = useState<ComponentInstance | null>(null);
   const dragStartPositions = useRef<Record<string, { x: number; y: number }>>({});
   const [snapEnabled, setSnapEnabled] = useState(true);
   const [isDebugMode, setIsDebugMode] = useState(false);
   const [isBOMOpen, setIsBOMOpen] = useState(false);
   const [activeTool, setActiveTool] = useState<"select" | "comment" | "inspect">("select");
-  const [comments, setComments] = useState<any[]>([]);
+  const [comments, setComments] = useState<CommentItem[]>([]);
   const [showInspect, setShowInspect] = useState(false);
-  const [inspectTarget, setInspectTarget] = useState<any>(null);
+  const [inspectTarget, setInspectTarget] = useState<ComponentInstance | null>(null);
   const [wireType, setWireType] = useState("normal");
   const [showWireDropdown, setShowWireDropdown] = useState(false);
   
@@ -124,7 +133,7 @@ export default function SimulationLab() {
     }
   };
 
-  const handleConfirmShare = async (meta: any) => {
+  const handleConfirmShare = async (meta: { title: string; visibility: Visibility; complexity: Complexity; tags: string[]; componentsUsed: string[] }) => {
     if (!currentUser) return;
     addPost({
       userId: currentUser.id,
@@ -155,7 +164,7 @@ export default function SimulationLab() {
     dlAnchorElem.click();
   };
 
-  const handleLoadVersion = (vData: any) => {
+  const handleLoadVersion = (vData: { components?: ComponentInstance[]; wires?: Wire[] }) => {
     if (vData.components) setComponents(vData.components);
     if (vData.wires) setWires(vData.wires);
     toast.success("Version loaded.");
@@ -180,8 +189,10 @@ export default function SimulationLab() {
     }
   };
 
-  const undo = () => historyUndo(setComponents, setWires);
-  const redo = () => historyRedo(setComponents, setWires);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const undo = useCallback(() => { historyUndo(setComponents, setWires); }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const redo = useCallback(() => { historyRedo(setComponents, setWires); }, []);
 
   const deleteSelected = useCallback(() => {
     if (selectedIds.length > 0) {

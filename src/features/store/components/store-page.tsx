@@ -15,11 +15,11 @@ import {
   X
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { STORE_ITEMS } from '@/features/store/data/store-data';
+import { STORE_ITEMS, StoreItem } from '@/features/store/data/store-data';
 
 // --- Sub-components ---
 
-function ProductCard({ item, setPreviewItem, handleAddToCart, isAddingToCart, onAddToSim }: any) {
+function ProductCard({ item, setPreviewItem, handleAddToCart, isAddingToCart, onAddToSim }: { item: StoreItem; setPreviewItem: (item: StoreItem) => void; handleAddToCart: (id: string) => void; isAddingToCart: string | null; onAddToSim?: (id: string) => void }) {
   return (
     <motion.div
       layout
@@ -127,7 +127,7 @@ const StorePage = () => {
   const [selectedCategory, setSelectedCategory] = useState('All Components');
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('Popularity');
-  const [previewItem, setPreviewItem] = useState<any>(null);
+  const [previewItem, setPreviewItem] = useState<(typeof STORE_ITEMS)[number] | null>(null);
   const [cartCount, setCartCount] = useState(0);
   const [isAddingToCart, setIsAddingToCart] = useState<string | null>(null);
   const [toast, setToast] = useState<string | null>(null);
@@ -140,7 +140,7 @@ const StorePage = () => {
   }, []);
 
   const sortedAndFilteredItems = useMemo(() => {
-    let result = STORE_ITEMS.filter(item => {
+    const result = STORE_ITEMS.filter(item => {
       const matchesCategory = selectedCategory === 'All Components' || item.category === selectedCategory;
       const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) || item.id.includes(searchQuery.toLowerCase());
       return matchesCategory && matchesSearch;

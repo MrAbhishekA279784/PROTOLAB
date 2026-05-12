@@ -2,8 +2,8 @@ import React from "react";
 import { X } from "lucide-react";
 
 interface CommentNoteProps {
-  comment: any;
-  setComments: React.Dispatch<React.SetStateAction<any[]>>;
+  comment: { id: string; x: number; y: number; text?: string; editing?: boolean };
+  setComments: React.Dispatch<React.SetStateAction<{ id: string; x: number; y: number; text?: string; editing?: boolean }[]>>;
 }
 
 export const CommentNote: React.FC<CommentNoteProps> = ({ comment, setComments }) => {

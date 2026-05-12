@@ -55,8 +55,9 @@ export function ShareModal({ isOpen, onClose, previewImage, onConfirm, isLoading
       setTags("");
       setComponentsUsed("");
       onClose();
-    } catch (err: any) {
-      toast.error(err.message || "Failed to share project");
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Failed to share project";
+      toast.error(message);
     } finally {
       setIsSubmitting(false);
     }

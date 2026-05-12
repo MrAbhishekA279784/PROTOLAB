@@ -1,6 +1,20 @@
 import React from "react";
+import { Pin } from "../types";
 
-export const COMPONENT_DEFS: Record<string, any> = {
+interface ComponentDefRenderProps {
+  isRunning?: boolean;
+}
+
+interface ComponentDef {
+  name: string;
+  type: string;
+  width: number;
+  height: number;
+  pins: Pin[];
+  render: (props?: ComponentDefRenderProps) => JSX.Element;
+}
+
+export const COMPONENT_DEFS: Record<string, ComponentDef> = {
   resistor: {
     name: "Resistor", type: "Basic",
     width: 80, height: 20,
@@ -22,7 +36,7 @@ export const COMPONENT_DEFS: Record<string, any> = {
     name: "LED", type: "Basic",
     width: 32, height: 60,
     pins: [ { id: "anode", x: 10, y: 60 }, { id: "cathode", x: 22, y: 56 } ],
-    render: ({ isRunning }: any) => (
+    render: ({ isRunning }: ComponentDefRenderProps) => (
       <div className="flex flex-col items-center w-[32px] h-[60px] pointer-events-none">
         <div className={`w-8 h-8 rounded-full ${isRunning ? 'bg-red-500 shadow-[0_0_15px_rgba(239,68,68,0.9)]' : 'bg-red-600/90'} border-b-4 border-red-800 shadow-inner z-10`} />
         <div className="flex gap-2 -mt-2">
@@ -128,7 +142,7 @@ export const COMPONENT_DEFS: Record<string, any> = {
     type: "Output",
     width: 90, height: 60,
     pins: [ { id: "p1", x: 85, y: 22 }, { id: "p2", x: 85, y: 38 } ],
-    render: ({ isRunning }: any) => (
+    render: ({ isRunning }: ComponentDefRenderProps) => (
       <div className="flex items-center w-[90px] h-[60px] pointer-events-none">
         <div className="w-[75px] h-full bg-[#e2e8f0] rounded-[24px] border border-slate-300 relative overflow-hidden flex items-center justify-center shadow-md">
            <div className="w-4 h-full bg-[#cbd5e1] absolute left-0" />

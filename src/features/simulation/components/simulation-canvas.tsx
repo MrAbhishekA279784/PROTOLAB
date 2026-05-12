@@ -1,8 +1,24 @@
 import React from "react";
+import { ComponentInstance, Wire, Pin } from "../types";
 import { COMPONENT_DEFS } from "../constants/component-defs";
 import { WireLayer } from "./wire-layer";
 import { CommentNote } from "./comment-note";
 import { InspectorPanel } from "./inspector-panel";
+
+interface CommentItem {
+  id: string;
+  x: number;
+  y: number;
+  text?: string;
+  editing?: boolean;
+}
+
+interface SelectionBox {
+  startX: number;
+  startY: number;
+  endX: number;
+  endY: number;
+}
 
 interface SimulationCanvasProps {
   containerRef: React.RefObject<HTMLDivElement>;
@@ -15,19 +31,19 @@ interface SimulationCanvasProps {
   setSnapEnabled: (val: boolean | ((v: boolean) => boolean)) => void;
   selectedIds: string[];
   setSelectedIds: (ids: string[] | ((prev: string[]) => string[])) => void;
-  components: any[];
-  setComponents: (comps: any[]) => void;
-  wires: any[];
-  drawingWire: any;
+  components: ComponentInstance[];
+  setComponents: (comps: ComponentInstance[]) => void;
+  wires: Wire[];
+  drawingWire: { startComp: string; startPin: string; endX: number; endY: number } | null;
   isRunning: boolean;
   simSpeed: number;
-  comments: any[];
-  setComments: React.Dispatch<React.SetStateAction<any[]>>;
+  comments: CommentItem[];
+  setComments: React.Dispatch<React.SetStateAction<CommentItem[]>>;
   showInspect: boolean;
-  inspectTarget: any;
+  inspectTarget: ComponentInstance | null;
   setShowInspect: (val: boolean) => void;
-  cursors: any[];
-  selBox: any;
+  cursors: { id: string; username: string; x: number; y: number; color: string; timestamp: number }[];
+  selBox: SelectionBox | null;
   handleMouseMove: (e: React.MouseEvent) => void;
   handleMouseUp: (e: React.MouseEvent) => void;
   handleMouseDown: (e: React.MouseEvent) => void;
@@ -35,12 +51,12 @@ interface SimulationCanvasProps {
   handleWheel: (e: React.WheelEvent) => void;
   handleDrop: (e: React.DragEvent) => void;
   getLogicalCoords: (clientX: number, clientY: number) => { x: number; y: number };
-  getPinAbsoluteCoords: (comp: any, pin: any) => { x: number; y: number };
+  getPinAbsoluteCoords: (comp: ComponentInstance, pin: Pin) => { x: number; y: number };
   startWire: (compId: string, pinId: string, x: number, y: number) => void;
   completeWire: (compId: string, pinId: string) => void;
-  draggingComp: any;
-  setDraggingComp: (comp: any) => void;
-  dragStartPositions: React.MutableRefObject<any>;
+  draggingComp: ComponentInstance | null;
+  setDraggingComp: (comp: ComponentInstance | null) => void;
+  dragStartPositions: React.MutableRefObject<Record<string, { x: number; y: number }>>;
 }
 
 export const SimulationCanvas: React.FC<SimulationCanvasProps> = ({
@@ -271,7 +287,7 @@ export const SimulationCanvas: React.FC<SimulationCanvasProps> = ({
               </div>
 
               {/* Connection Pins */}
-              {def.pins.map((pin: any) => {
+              {def.pins.map((pin) => {
                 const absPos = getPinAbsoluteCoords(comp, pin);
                 return (
                   <div

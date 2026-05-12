@@ -1,19 +1,19 @@
 import { useState, useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
-import { Cpu, CircuitBoard, Code2, Bot, ShoppingBag, Users, Sun, Moon, Home } from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import { Cpu, CircuitBoard, Code2, Bot, ShoppingBag, Users, Sun, Moon } from "lucide-react";
 import SimulationLab from "@/features/simulation/components/simulation-lab";
 import PCBDesigner from "@/features/pcb/components/pcb-designer";
 import ProtoCodeStudio from "@/features/protocode-studio/ProtoCodeStudio";
 import AIAssistant from "@/features/ai/components/ai-assistant";
 import StorePage from "@/features/store/components/store-page";
-import CommunityFeed from "@/features/community/components/community-feed";
+import CommunityHub from "@/features/community/components/community-hub";
 import HomePage from "@/features/homepage/HomePage";
 import { AuthButtons } from "@/components/auth/auth-modals";
 import { OnboardingTour } from "@/components/layout/onboarding-tour";
 import { useStore, Post } from "@/store/useStore";
 
 const modes = [
-  { id: "home", label: "Home", icon: Home },
   { id: "store", label: "Store", icon: ShoppingBag },
   { id: "sim", label: "Simulation", icon: Cpu },
   { id: "pcb", label: "PCB LAB", icon: CircuitBoard },
@@ -73,31 +73,53 @@ const Index = () => {
     };
   }, [isDragging]);
 
+  const navigate = useNavigate();
+
   return (
-    <div className="flex flex-col h-screen overflow-hidden bg-background">
+    <div className={`flex flex-col h-screen overflow-hidden ${theme}`}>
       {/* Global Header */}
-      <header className="h-12 flex items-center justify-between px-4 border-b border-border bg-card shrink-0 relative">
-        <div className="flex items-center gap-2 shrink-0">
-          <div className="w-7 h-7 rounded-lg bg-primary flex items-center justify-center">
+      <header className="h-12 flex items-center justify-between px-4 border-b border-border bg-card shrink-0 relative z-20">
+        <motion.button
+          onClick={() => setActiveMode("home")}
+          className="flex items-center gap-2 shrink-0 group relative"
+          id="navbar-logo"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          transition={{ type: "spring", stiffness: 400, damping: 20 }}
+        >
+          <div className="w-7 h-7 rounded-lg bg-primary flex items-center justify-center group-hover:shadow-[0_0_15px_rgba(79,107,255,0.4)] transition-shadow">
             <Cpu className="w-4 h-4 text-primary-foreground" />
           </div>
-          <span className="font-semibold text-sm tracking-tight hidden sm:inline-block">ProtoLab</span>
-        </div>
+          <span className="font-bold text-sm tracking-tight hidden sm:inline-block bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent group-hover:from-primary group-hover:to-primary/70 transition-all">
+            ProtoLab
+          </span>
+          
+          {/* Subtle underline glow on hover */}
+          <motion.div 
+            className="absolute -bottom-1 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
+            initial={false}
+          />
+        </motion.button>
         
         <nav className="flex-1 max-w-[50vw] sm:max-w-none overflow-x-auto no-scrollbar mx-2 sm:absolute sm:left-1/2 sm:-translate-x-1/2 flex items-center gap-1.5 snap-x">
           {modes.map((mode) => {
             const Icon = mode.icon;
             const isActive = activeMode === mode.id;
-            const isStore = mode.id === "store";
             
             return (
               <button
                 key={mode.id}
-                onClick={() => setActiveMode(mode.id)}
+                onClick={() => {
+                  if (mode.id === "community") {
+                    navigate("/community");
+                  } else {
+                    setActiveMode(mode.id);
+                  }
+                }}
                 className={`shrink-0 snap-center flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs transition-all duration-300 transform active:scale-95 ${
                   isActive
-                    ? (isStore ? "bg-primary text-primary-foreground font-bold shadow-[0_4px_10px_rgba(79,107,255,0.3)] shadow-primary/30 scale-105" : "bg-primary text-primary-foreground font-semibold shadow-md scale-105")
-                    : (isStore ? "text-primary hover:bg-primary/10 font-semibold hover:scale-105 hover:shadow-sm" : "text-muted-foreground hover:text-foreground hover:bg-secondary font-medium hover:scale-105")
+                    ? "bg-primary text-primary-foreground shadow-lg scale-105 ring-1 ring-primary/20"
+                    : "text-muted-foreground hover:text-foreground hover:bg-secondary"
                 }`}
               >
                 <Icon className="w-4 h-4" />
@@ -129,7 +151,7 @@ const Index = () => {
           {activeMode === "pcb" && <PCBDesigner />}
           {activeMode === "code" && <ProtoCodeStudio />}
           {activeMode === "store" && <StorePage />}
-          {activeMode === "community" && <CommunityFeed onViewProject={handleViewProject} />}
+          {activeMode === "community" && <CommunityHub />}
         </div>
         
         {/* Onboarding Tour Overlay */}
