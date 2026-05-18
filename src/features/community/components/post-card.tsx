@@ -172,6 +172,19 @@ export function PostCard({ post, onViewProject }: { post: Post, onViewProject?: 
           >
             <GitFork className="w-4 h-4" />
           </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => {
+              const url = `${window.location.origin}/project/${post.id}`;
+              navigator.clipboard.writeText(url);
+              toast.success("Project link copied to clipboard!");
+            }}
+            className="gap-1.5 rounded-full text-muted-foreground hover:text-primary hover:bg-primary/10"
+            title="Share Project"
+          >
+            <Share2 className="w-4 h-4" />
+          </Button>
         </div>
       </div>
 

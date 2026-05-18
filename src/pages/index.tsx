@@ -5,13 +5,15 @@ import { Cpu, CircuitBoard, Code2, Bot, ShoppingBag, Users, Sun, Moon } from "lu
 import SimulationLab from "@/features/simulation/components/simulation-lab";
 import PCBDesigner from "@/features/pcb/components/pcb-designer";
 import ProtoCodeStudio from "@/features/protocode-studio/ProtoCodeStudio";
-import AIAssistant from "@/features/ai/components/ai-assistant";
+import ProtoAI from "@/features/ai/components/proto-ai";
 import StorePage from "@/features/store/components/store-page";
 import CommunityHub from "@/features/community/components/community-hub";
 import HomePage from "@/features/homepage/HomePage";
 import { AuthButtons } from "@/components/auth/auth-modals";
 import { OnboardingTour } from "@/components/layout/onboarding-tour";
 import { useStore, Post } from "@/store/useStore";
+
+import { CommandPalette } from "@/features/search/components/CommandPalette";
 
 const modes = [
   { id: "store", label: "Store", icon: ShoppingBag },
@@ -27,6 +29,7 @@ const Index = () => {
   const location = useLocation();
   const [activeMode, setActiveMode] = useState<Mode>(location.state?.targetMode || "home");
   const { loadProject, theme, setTheme } = useStore();
+  const [showSearch, setShowSearch] = useState(false);
   
   useEffect(() => {
     if (theme === "dark") {
@@ -36,6 +39,18 @@ const Index = () => {
     }
   }, [theme]);
 
+  // Global search shortcut
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        setShowSearch(prev => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   const handleViewProject = (post: Post) => {
     let targetMode: Mode = "sim";
     if (post.type === "Code") targetMode = "code";
@@ -44,35 +59,13 @@ const Index = () => {
     loadProject(post.type, post.data, post.id);
     setActiveMode(targetMode);
   };
-  
-  const [isAIOpen, setIsAIOpen] = useState(false);
-  // Drag state for AI Button
-  const [aiPos, setAiPos] = useState<{ x: number, y: number } | null>(null);
-  const [isDragging, setIsDragging] = useState(false);
-  const dragStart = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
-    if (!isDragging) return;
-
-    const handleMouseMove = (e: MouseEvent) => {
-      setAiPos({
-        x: e.clientX - dragStart.current.x,
-        y: e.clientY - dragStart.current.y
-      });
-    };
-
-    const handleMouseUp = () => {
-      setIsDragging(false);
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseup', handleMouseUp);
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleMouseUp);
-    };
-  }, [isDragging]);
-
+    if (location.state?.targetMode) {
+      setActiveMode(location.state.targetMode);
+    }
+  }, [location.state]);
+  
   const navigate = useNavigate();
 
   return (
@@ -156,37 +149,7 @@ const Index = () => {
         
         {/* Onboarding Tour Overlay */}
         <OnboardingTour />
-        
-        {/* AI Assistant Drawer */}
-        <AIAssistant isOpen={isAIOpen} onClose={() => setIsAIOpen(false)} />
-
-        {/* Floating AI Button */}
-        <button
-          onMouseDown={(e) => {
-            const rect = e.currentTarget.getBoundingClientRect();
-            setIsDragging(true);
-            dragStart.current = {
-              x: e.clientX - rect.left,
-              y: e.clientY - rect.top
-            };
-            if (!aiPos) {
-              setAiPos({ x: rect.left, y: rect.top });
-            }
-          }}
-          onClick={() => {
-            if (!isDragging) {
-              setIsAIOpen(true);
-            }
-          }}
-          style={aiPos ? { left: aiPos.x, top: aiPos.y } : { right: 24, bottom: 24 }}
-          className={`fixed w-16 h-16 rounded-full bg-gradient-to-tr from-primary to-primary/80 text-primary-foreground flex items-center justify-center z-50 transition-transform duration-200 ease-out border border-primary/30 ${
-            isDragging 
-              ? "cursor-grabbing scale-[1.05] shadow-[0_10px_25px_rgba(37,99,235,0.6)]" 
-              : "cursor-grab hover:scale-[1.05] hover:shadow-[0_8px_20px_rgba(37,99,235,0.5)] shadow-[0_4px_12px_rgba(37,99,235,0.3)]"
-          }`}
-        >
-          <Bot className="w-8 h-8 pointer-events-none drop-shadow-sm" />
-        </button>
+        <CommandPalette isOpen={showSearch} onClose={() => setShowSearch(false)} />
       </div>
     </div>
   );

@@ -7,7 +7,7 @@ import {
   Check, ArrowRight, Activity, Search,
   FolderOpen, Library, Cpu, BugOff, User, MoreHorizontal,
   ChevronRight, Trash2,
-  Save, RotateCcw, FilePlus, Edit2, X, CheckCircle2
+  Save, RotateCcw, FilePlus, Edit2, X, CheckCircle2, Bot
 } from 'lucide-react';
 
 // ==================================================
@@ -159,7 +159,15 @@ const PRE_INSTALLED_NAMES = ALL_LIBRARIES.filter(l => l.preInstalled).map(l => l
 type TabId = 'files' | 'libs' | 'boards' | 'debug' | 'search';
 
 export default function ExactArduinoIDEPage() {
-  const { theme } = useStore();
+  const { 
+    theme, 
+    loadedProject,
+    joinSession,
+    leaveSession,
+    updatePresence,
+    activeSessions,
+    currentSessionId 
+  } = useStore();
   const [code, setCode] = useState(DEFAULT_CODE);
   const [activeTab, setActiveTab] = useState<TabId | null>('files');
   const [consoleTab, setConsoleTab] = useState<'output' | 'errors' | 'serial'>('output');
@@ -223,19 +231,72 @@ export default function ExactArduinoIDEPage() {
   }, []);
 
   // ==================================================
+  // LIBRARY DETECTION & SCANNER
+  // ==================================================
+  useEffect(() => {
+    const includes = code.match(/#include\s+<(.+?)\.h>/g) || [];
+    const detectedLibs = includes.map(inc => inc.match(/<(.+?)\.h>/)?.[1] || '');
+    
+    detectedLibs.forEach(lib => {
+      // Find if this library is in our list but not installed
+      const match = ALL_LIBRARIES.find(l => l.name.toLowerCase() === lib.toLowerCase());
+      if (match && libStates[match.name] !== 'installed') {
+        // Just log it for now, could show a notification
+        console.log(`Detected include for uninstalled library: ${match.name}`);
+      }
+    });
+  }, [code, libStates]);
+
+  const [missingLibs, setMissingLibs] = useState<string[]>([]);
+  const [baudRate, setBaudRate] = useState('9600');
+  const [lineEnding, setLineEnding] = useState('Newline');
+
+  useEffect(() => {
+    const includes = code.match(/#include\s+<(.+?)\.h>/g) || [];
+    const detectedLibs = includes.map(inc => inc.match(/<(.+?)\.h>/)?.[1] || '');
+    
+    const missing = detectedLibs.filter(lib => {
+      const match = ALL_LIBRARIES.find(l => l.name.toLowerCase() === lib.toLowerCase());
+      return match && libStates[match.name] !== 'installed';
+    });
+
+    setMissingLibs(prev => {
+      if (JSON.stringify(prev) === JSON.stringify(missing)) return prev;
+      return missing;
+    });
+  }, [code, libStates]);
+
+  useEffect(() => {
+    // Join collaboration session for this project
+    const projectId = loadedProject?.id || 'default_code_lab';
+    joinSession(projectId);
+    
+    return () => {
+      leaveSession();
+    };
+  }, [joinSession, leaveSession, loadedProject?.id]);
+
+  useEffect(() => {
+    // Update presence with active file
+    updatePresence({ activeFile: 'sketch_mar21a.ino' });
+  }, [updatePresence]);
+
+  // ==================================================
   // SERIAL AUTO-DATA STREAM
   // ==================================================
   useEffect(() => {
     if (serialRunning && consoleTab === 'serial') {
+      const interval = baudRate === '115200' ? 200 : 800;
       serialTimerRef.current = setInterval(() => {
         const val = (Math.random() * 1023).toFixed(0);
-        setSerialLogs(prev => [...prev.slice(-200), `${val}`]);
-      }, 800);
+        const timestamp = new Date().toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        setSerialLogs(prev => [...prev.slice(-200), `[${timestamp}] ${val}`]);
+      }, interval);
     }
     return () => {
       if (serialTimerRef.current) clearInterval(serialTimerRef.current);
     };
-  }, [serialRunning, consoleTab]);
+  }, [serialRunning, consoleTab, baudRate]);
 
   // ==================================================
   // COPILOT MOCK
@@ -268,11 +329,16 @@ export default function ExactArduinoIDEPage() {
     setOutputLogs(prev => [...prev, msg]);
   }, []);
 
+  // Memory usage state
+  const [memoryInfo, setMemoryInfo] = useState<{ program: number; programPercent: number; dynamic: number; dynamicPercent: number } | null>(null);
+  const [uploadProgress, setUploadProgress] = useState<number>(0);
+
   const handleVerify = useCallback(async () => {
     if (isCompiling || isUploading) return;
     setIsCompiling(true);
     setConsoleTab('output');
     setErrorLogs([]);
+    setMemoryInfo(null);
     setOutputLogs([`> Compiling sketch for ${selectedBoard}...`]);
 
     const fqbn = FQBN_MAP[selectedBoard] || 'arduino:avr:uno';
@@ -280,18 +346,20 @@ export default function ExactArduinoIDEPage() {
     try {
       const data = await compileSketch(code, fqbn, 'sketch_mar21a');
 
-      if (data.mode === 'mock') {
-        addLog(`[Note] Using mock compilation mode.`);
-      }
-
       if (data.success) {
         setOutputLogs(prev => [...prev, ...data.logs, `✓ Compilation Successful`]);
+        setMemoryInfo(data.memoryUsage);
         showToast('Compilation Successful');
       } else {
         setOutputLogs(prev => [...prev, ...data.logs, `✗ Compilation Failed`]);
         setErrorLogs(data.errors);
         setConsoleTab('errors');
         showToast('Compilation Failed');
+        
+        // Trigger Proto AI to explain errors
+        if (data.errors.length > 0) {
+          useStore.getState().triggerAI(`I'm getting these compilation errors in my Arduino code. Can you explain them and suggest a fix?\n\nErrors:\n${data.errors.join('\n')}\n\nCode:\n\`\`\`cpp\n${code}\n\`\`\``);
+        }
       }
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
@@ -300,11 +368,12 @@ export default function ExactArduinoIDEPage() {
     } finally {
       setIsCompiling(false);
     }
-  }, [code, isCompiling, isUploading, selectedBoard, addLog, showToast]);
+  }, [code, isCompiling, isUploading, selectedBoard, showToast]);
 
   const handleUpload = useCallback(async () => {
     if (isCompiling || isUploading) return;
     setIsUploading(true);
+    setUploadProgress(0);
     setConsoleTab('output');
     setErrorLogs([]);
     setOutputLogs([`> Compiling and uploading to ${selectedBoard} on ${selectedPort}...`]);
@@ -312,7 +381,7 @@ export default function ExactArduinoIDEPage() {
     const fqbn = FQBN_MAP[selectedBoard] || 'arduino:avr:uno';
 
     try {
-      const data = await uploadSketch(code, fqbn, selectedPort, 'sketch_mar21a');
+      const data = await uploadSketch(code, fqbn, selectedPort, 'sketch_mar21a', (p) => setUploadProgress(p));
 
       if (data.success) {
         setOutputLogs(prev => [...prev, ...data.logs, `✓ Upload Successful`]);
@@ -323,6 +392,10 @@ export default function ExactArduinoIDEPage() {
         setErrorLogs(data.errors);
         setConsoleTab('errors');
         showToast('Upload Failed');
+        
+        if (data.errors.length > 0) {
+          useStore.getState().triggerAI(`My upload failed with these errors. What should I check?\n\nErrors:\n${data.errors.join('\n')}`);
+        }
       }
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
@@ -330,6 +403,7 @@ export default function ExactArduinoIDEPage() {
       setErrorLogs([message]);
     } finally {
       setIsUploading(false);
+      setUploadProgress(0);
     }
   }, [code, isCompiling, isUploading, selectedBoard, selectedPort, showToast]);
 
@@ -465,12 +539,34 @@ export default function ExactArduinoIDEPage() {
 
           <div className="w-px h-6 bg-border mx-1" />
 
+          {/* Ask Proto AI */}
+          <button 
+            onClick={() => {
+              useStore.getState().triggerAI(`Can you explain or optimize this code?\n\n\`\`\`cpp\n${code}\n\`\`\``);
+            }} 
+            className="flex items-center gap-1.5 px-3 py-1 rounded bg-cyan-500/10 border border-cyan-500/30 text-[11px] font-bold text-cyan-500 hover:bg-cyan-500 hover:text-white transition-all active:scale-95" 
+            title="Ask Proto AI"
+          >
+            <Bot className="w-3.5 h-3.5" />
+            ASK PROTO AI
+          </button>
+
+          <div className="w-px h-6 bg-border mx-1" />
+
           {/* Board Selector */}
           <div className="relative">
             <button onClick={() => setShowBoardDropdown(!showBoardDropdown)}
-              className="flex items-center h-7 border border-primary/50 rounded text-[12px] bg-transparent hover:bg-secondary transition-colors cursor-pointer">
-              <div className="px-3 border-r border-primary/50 h-full flex items-center whitespace-nowrap text-foreground">{selectedBoard}</div>
-              <div className="px-2 h-full flex items-center"><span className="text-[10px] text-primary">▼</span></div>
+              className="flex items-center h-7 border border-primary/50 rounded text-[12px] bg-transparent hover:bg-secondary transition-colors cursor-pointer pr-2">
+              <div className="px-3 border-r border-primary/50 h-full flex items-center whitespace-nowrap text-foreground gap-2">
+                <SafeIcon icon={Cpu} size={12} className="text-primary" />
+                {selectedBoard}
+              </div>
+              <div className="px-2 flex items-center gap-1">
+                <span className="text-[9px] bg-primary/20 text-primary px-1.5 py-0.5 rounded-full font-black uppercase tracking-tighter animate-pulse">
+                  {selectedBoard.includes('ESP') ? 'ESP32' : 'AVR'}
+                </span>
+                <span className="text-[10px] text-primary">▼</span>
+              </div>
             </button>
             {showBoardDropdown && (
               <div className="absolute top-9 left-0 bg-popover border border-border rounded shadow-lg z-50 min-w-[200px]">
@@ -496,6 +592,16 @@ export default function ExactArduinoIDEPage() {
           <span className="text-[12px] text-muted-foreground ml-2 font-medium whitespace-nowrap">
             {isCompiling ? 'Compiling sketch...' : isUploading ? 'Uploading...' : `on ${selectedPort}`}
           </span>
+          
+          {/* Upload Progress Bar */}
+          {isUploading && (
+            <div className="ml-4 w-48 h-1.5 bg-secondary/50 rounded-full overflow-hidden border border-border/20">
+              <div 
+                className="h-full bg-primary transition-all duration-300 ease-out"
+                style={{ width: `${uploadProgress}%` }}
+              />
+            </div>
+          )}
         </div>
 
         {/* Right side Icons */}
@@ -565,10 +671,26 @@ export default function ExactArduinoIDEPage() {
                     <SafeIcon icon={FolderOpen} size={14} className="text-primary" />
                     sketch_mar21a
                   </div>
-                  <div className="flex items-center gap-1.5 pl-8 pr-2 py-1 hover:bg-secondary/80 rounded-[3px] cursor-pointer group">
+                  <div className="flex items-center gap-1.5 pl-8 pr-2 py-1 hover:bg-secondary/80 rounded-[3px] cursor-pointer group relative">
                     <span className="text-primary text-[11px] font-bold">ino</span>
                     sketch_mar21a.ino
-                    <button className="ml-auto opacity-0 group-hover:opacity-100 hover:text-foreground"><SafeIcon icon={Edit2} size={12} /></button>
+                    
+                    {/* Collaborator Indicators */}
+                    <div className="ml-auto flex items-center -space-x-1">
+                      {currentSessionId && activeSessions[currentSessionId]?.activeUsers
+                        .filter(u => u.userId !== useStore.getState().currentUser?.id && u.activeFile === 'sketch_mar21a.ino')
+                        .map(u => (
+                          <div 
+                            key={u.userId}
+                            className="w-4 h-4 rounded-full bg-primary border-2 border-card flex items-center justify-center text-[6px] font-black text-white uppercase"
+                            title={`${u.username} is editing`}
+                          >
+                            {u.username.substring(0, 1)}
+                          </div>
+                        ))}
+                    </div>
+
+                    <button className="opacity-0 group-hover:opacity-100 hover:text-foreground transition-opacity ml-2"><SafeIcon icon={Edit2} size={12} /></button>
                   </div>
                 </div>
                 <div className="mt-4 px-2 text-muted-foreground text-[11px] font-bold uppercase">Examples</div>
@@ -702,6 +824,30 @@ export default function ExactArduinoIDEPage() {
 
           {/* Monaco */}
           <div className="flex-1 relative">
+            {/* Library Suggestion Banner */}
+            {missingLibs.length > 0 && (
+              <div className="absolute top-2 left-1/2 -translate-x-1/2 z-30 bg-card/90 backdrop-blur-md border border-primary/30 rounded-full px-4 py-1.5 flex items-center gap-3 shadow-2xl animate-in slide-in-from-top-4">
+                <SafeIcon icon={Library} size={14} className="text-primary" />
+                <span className="text-[11px] font-bold text-foreground">
+                  MISSING LIBRARIES: <span className="text-primary">{missingLibs.join(', ')}</span>
+                </span>
+                <div className="flex gap-2">
+                  {missingLibs.map(lib => (
+                    <button 
+                      key={lib}
+                      onClick={() => handleInstallLib(lib)}
+                      className="px-2 py-0.5 bg-primary/10 hover:bg-primary text-primary hover:text-white border border-primary/20 rounded-full text-[9px] font-black uppercase transition-all active:scale-95"
+                    >
+                      Quick Install
+                    </button>
+                  ))}
+                </div>
+                <button onClick={() => setMissingLibs([])} className="hover:text-primary transition-colors ml-2">
+                  <SafeIcon icon={X} size={12} />
+                </button>
+              </div>
+            )}
+            
             <Editor
               height="100%"
               defaultLanguage="cpp"
@@ -750,11 +896,37 @@ export default function ExactArduinoIDEPage() {
 
             <div className="flex-1 overflow-y-auto w-full p-2">
               {consoleTab === 'output' && (
-                <div className="font-mono text-[12px] leading-relaxed text-foreground flex flex-col">
-                  {outputLogs.map((log, i) => (
-                    <div key={i} className={log.startsWith('>') ? 'text-primary font-semibold' : log.startsWith('Installed') || log.includes('complete') || log.includes('successful') || log.includes('Successful') ? 'text-success' : ''}>{log}</div>
-                  ))}
-                  <div ref={logsEndRef} />
+                <div className="font-mono text-[12px] leading-relaxed text-foreground flex flex-col h-full">
+                  <div className="flex-1 overflow-y-auto custom-scrollbar pr-2">
+                    {outputLogs.map((log, i) => (
+                      <div key={i} className={log.startsWith('>') ? 'text-primary font-semibold' : log.startsWith('Installed') || log.includes('complete') || log.includes('successful') || log.includes('Successful') ? 'text-success' : ''}>{log}</div>
+                    ))}
+                    <div ref={logsEndRef} />
+                  </div>
+                  
+                  {/* Memory Usage Stats */}
+                  {memoryInfo && !isCompiling && (
+                    <div className="mt-2 pt-2 border-t border-border/50 flex flex-col gap-2 shrink-0 bg-card/50 p-2 rounded-t-lg">
+                      <div className="flex flex-col gap-1">
+                        <div className="flex justify-between text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
+                          <span>Program Storage Space</span>
+                          <span>{memoryInfo.program} / {Math.round(memoryInfo.program / (memoryInfo.programPercent / 100))} bytes ({memoryInfo.programPercent}%)</span>
+                        </div>
+                        <div className="w-full h-1 bg-secondary rounded-full overflow-hidden">
+                          <div className={`h-full transition-all duration-500 ${memoryInfo.programPercent > 90 ? 'bg-red-500' : 'bg-primary'}`} style={{ width: `${memoryInfo.programPercent}%` }} />
+                        </div>
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        <div className="flex justify-between text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
+                          <span>Dynamic Memory</span>
+                          <span>{memoryInfo.dynamic} bytes ({memoryInfo.dynamicPercent}%)</span>
+                        </div>
+                        <div className="w-full h-1 bg-secondary rounded-full overflow-hidden">
+                          <div className={`h-full transition-all duration-500 ${memoryInfo.dynamicPercent > 90 ? 'bg-red-500' : 'bg-cyan-500'}`} style={{ width: `${memoryInfo.dynamicPercent}%` }} />
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -768,25 +940,46 @@ export default function ExactArduinoIDEPage() {
               {consoleTab === 'serial' && (
                 <div className="flex flex-col h-full bg-card">
                   <div className="flex items-center gap-2 px-2 pb-2 text-[11px] border-b border-border shrink-0">
-                    <select className="bg-background border border-border rounded px-2 py-0.5 text-foreground outline-none">
+                    <select 
+                      value={lineEnding}
+                      onChange={(e) => setLineEnding(e.target.value)}
+                      className="bg-background border border-border rounded px-2 py-0.5 text-foreground outline-none hover:border-primary transition-colors cursor-pointer"
+                    >
                       <option>Newline</option><option>Carriage return</option><option>Both NL &amp; CR</option><option>No line ending</option>
                     </select>
-                    <select className="bg-background border border-border rounded px-2 py-0.5 text-foreground outline-none">
-                      <option>9600 baud</option><option>115200 baud</option>
+                    <select 
+                      value={baudRate}
+                      onChange={(e) => setBaudRate(e.target.value)}
+                      className="bg-background border border-border rounded px-2 py-0.5 text-foreground outline-none hover:border-primary transition-colors cursor-pointer"
+                    >
+                      <option value="9600">9600 baud</option>
+                      <option value="115200">115200 baud</option>
+                      <option value="57600">57600 baud</option>
                     </select>
-                    <button onClick={() => { setSerialRunning(false); setSerialLogs([]); }}
-                      className="ml-auto flex items-center gap-1 bg-background border border-border hover:border-primary rounded px-3 py-0.5 text-foreground transition-colors">
-                      <SafeIcon icon={RotateCcw} size={10} /> Clear
+                    <button onClick={() => setSerialLogs([])}
+                      className="ml-auto flex items-center gap-1 bg-secondary hover:bg-secondary/80 border border-border hover:border-primary rounded px-3 py-0.5 text-foreground transition-all active:scale-95 text-[10px] font-bold">
+                      <SafeIcon icon={RotateCcw} size={10} /> CLEAR LOGS
                     </button>
                   </div>
-                  <div className="flex-1 font-mono text-[12px] leading-relaxed text-primary overflow-y-auto py-2">
-                    {serialLogs.map((log, i) => (<div key={i}>{log}</div>))}
+                  <div className="flex-1 font-mono text-[11px] leading-relaxed text-cyan-400 overflow-y-auto py-2 custom-scrollbar px-2">
+                    {serialLogs.length === 0 ? (
+                      <div className="flex items-center justify-center h-full text-muted-foreground/30 italic">No serial data received...</div>
+                    ) : (
+                      serialLogs.map((log, i) => (<div key={i} className="hover:bg-primary/5 transition-colors">{log}</div>))
+                    )}
                     <div ref={logsEndRef} />
                   </div>
                   <form onSubmit={handleSerialSend} className="flex gap-2 shrink-0 border-t border-border pt-2">
-                    <input type="text" value={serialInput} onChange={(e) => setSerialInput(e.target.value)} placeholder="Message (press Enter)"
-                      className="flex-1 bg-background border border-border rounded px-2 py-1 focus:outline-none focus:border-primary text-[12px] text-foreground font-mono" />
-                    <button type="submit" className="px-4 py-1 bg-secondary hover:bg-secondary/80 border border-border text-foreground rounded text-[12px] transition-colors active:scale-95">Send</button>
+                    <input 
+                      type="text" 
+                      value={serialInput}
+                      onChange={(e) => setSerialInput(e.target.value)}
+                      placeholder="Send command to board..."
+                      className="flex-1 bg-background border border-border rounded px-3 py-1 text-[12px] text-foreground focus:outline-none focus:border-primary transition-all"
+                    />
+                    <button type="submit" className="px-4 py-1 bg-primary hover:bg-primary/90 text-primary-foreground rounded text-[11px] font-bold transition-all active:scale-95">
+                      SEND
+                    </button>
                   </form>
                 </div>
               )}

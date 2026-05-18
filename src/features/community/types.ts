@@ -49,6 +49,15 @@ export interface Developer {
   following: number;
   projectsCount: number;
   isFollowing?: boolean;
+  location?: string;
+  website?: string;
+  joinDate?: string;
+  contributionData?: { date: string; count: number }[];
+  socials?: {
+    github?: string;
+    twitter?: string;
+    linkedin?: string;
+  };
 }
 
 export interface Repository {

@@ -45,18 +45,18 @@ const CommunityPage = () => {
         <nav className="flex items-center gap-1.5">
           <Link
             to="/"
+            state={{ targetMode: "store" }}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-all"
           >
             <ShoppingBag className="w-4 h-4" />
             Store
           </Link>
-          <Link
-            to="/"
+          <div
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-primary text-primary-foreground shadow-md"
           >
             <Users className="w-4 h-4" />
             Community
-          </Link>
+          </div>
         </nav>
 
         <div className="flex items-center gap-4 shrink-0">

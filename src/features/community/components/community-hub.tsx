@@ -7,6 +7,7 @@ import DiscussionsTab from "./discussions-tab";
 import IssuesTab from "./issues-tab";
 import PullRequestsTab from "./pull-requests-tab";
 import DevelopersTab from "./developers-tab";
+import CommunityTrending from "./community-trending";
 import type { CommunityTab } from "../types";
 
 const tabVariants = {
@@ -51,6 +52,9 @@ export default function CommunityHub() {
           </motion.div>
         </AnimatePresence>
       </div>
+
+      {/* Trending Sidebar — visible on xl+ */}
+      <CommunityTrending />
     </div>
   );
 }

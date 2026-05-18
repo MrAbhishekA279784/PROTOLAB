@@ -14,9 +14,11 @@ import {
   CircleDot,
   GitPullRequest,
   Users2,
+  Share2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
 import type { CommunityTab } from "../types";
 
 interface CommunitySidebarProps {
@@ -258,6 +260,32 @@ export default function CommunitySidebar({ activeTab, onTabChange }: CommunitySi
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Footer Actions */}
+      <div className="px-3 pb-6 mt-auto">
+        {!collapsed ? (
+          <button 
+            onClick={() => {
+              navigator.clipboard.writeText(window.location.origin + "/community");
+              toast.success("Community link copied!");
+            }}
+            className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-muted-foreground hover:text-foreground hover:bg-secondary transition-all group border border-transparent hover:border-white/5 shadow-sm"
+          >
+            <Share2 className="w-4 h-4 group-hover:text-primary transition-colors" />
+            Share Community
+          </button>
+        ) : (
+          <button 
+            onClick={() => {
+              navigator.clipboard.writeText(window.location.origin + "/community");
+              toast.success("Community link copied!");
+            }}
+            className="w-full flex items-center justify-center py-2.5 rounded-xl text-muted-foreground hover:text-foreground hover:bg-secondary transition-all"
+          >
+            <Share2 className="w-4 h-4" />
+          </button>
+        )}
+      </div>
     </motion.aside>
   );
 }

@@ -268,7 +268,7 @@ export const SimulationCanvas: React.FC<SimulationCanvasProps> = ({
                     if (ids.includes(c.id)) positions[c.id] = { x: c.x, y: c.y };
                   });
                   dragStartPositions.current = positions;
-                  setDraggingComp({ id: comp.id, originX: x, originY: y });
+                  setDraggingComp({ ...comp, originX: x, originY: y });
                 }}
                 className={`absolute inset-0 cursor-grab active:cursor-grabbing origin-center transition-transform hover:-translate-y-[1px] duration-300 ${
                   isSelected
